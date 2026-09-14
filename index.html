@@ -6,218 +6,311 @@
 <title>Quality Analysis Record — ICOCO Quality</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #EEF0EA;
-    --paper-raised: #F8F9F4;
-    --ink: #1D231C;
-    --ink-soft: #4B5348;
-    --line: #C9CFC1;
-    --line-strong: #9AA492;
-    --teal: #1F5C56;
-    --teal-soft: #E1EDE9;
-    --ochre: #8F6A16;
-    --ochre-soft: #F3E9D2;
-    --brick: #8C3B2E;
-    --brick-soft: #F4E3DE;
-    --shadow: 0 1px 0 rgba(29,35,28,0.06);
+    --paper: #F8F9FB;
+    --paper-raised: #FFFFFF;
+    --ink: #111827;
+    --ink-soft: #6B7280;
+    --line: #F3F4F6;
+    --line-strong: #E5E7EB;
+    --teal: #111827;
+    --teal-soft: #ECFDF5;
+    --ochre: #D97706;
+    --ochre-soft: #FFFBEB;
+    --brick: #DC2626;
+    --brick-soft: #FEF2F2;
+    --emerald: #059669;
+    --emerald-soft: #ECFDF5;
+    --emerald-line: #A7F3D0;
+    --amber-line: #FDE68A;
+    --red-line: #FECACA;
+    --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.06);
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
     background:var(--paper);
     color:var(--ink);
-    font-family:'IBM Plex Sans', sans-serif;
+    font-family:'Inter','Noto Sans Thai','Noto Sans SC', sans-serif;
     font-size:14.5px;
     line-height:1.5;
   }
   h1,h2,h3{
-    font-family:'Spectral', serif;
+    font-family:'Inter','Noto Sans Thai','Noto Sans SC', sans-serif;
     font-weight:600;
+    letter-spacing:-0.01em;
     color:var(--ink);
     margin:0;
   }
-  .mono{font-family:'IBM Plex Mono', monospace;}
+  .mono{font-family:'JetBrains Mono', monospace;}
 
   /* ---- App shell ---- */
   header.app{
-    background:var(--paper-raised);
+    position:sticky; top:0; z-index:30;
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
     border-bottom:1px solid var(--line-strong);
-    padding:18px 28px 0 28px;
+    padding:16px 28px 0 28px;
   }
-  .app-title-row{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px 20px;}
-  .app-title-row h1{font-size:22px; letter-spacing:0.2px;}
-  .app-title-row .subtitle{color:var(--ink-soft); font-size:13px; margin-top:2px;}
-  nav.tabs{display:flex; gap:2px; margin-top:16px;}
+  .brand-row{display:flex; align-items:center; gap:14px;}
+  .brand-logo{
+    width:38px; height:38px; border-radius:11px; background:var(--ink); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12.5px;
+    letter-spacing:0.08em; flex-shrink:0;
+  }
+  .brand-title{font-weight:600; font-size:15.5px; letter-spacing:-0.01em; line-height:1.1;}
+  .brand-subtitle{font-size:11.5px; color:var(--ink-soft); font-weight:500; margin-top:3px;}
+  .app-title-row{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 20px;}
+  nav.tabs{display:flex; gap:6px; margin-top:14px; padding-bottom:12px; flex-wrap:wrap;}
   nav.tabs button{
-    font-family:'IBM Plex Sans', sans-serif;
-    font-size:13.5px;
+    font-family:'Inter','Noto Sans Thai','Noto Sans SC', sans-serif;
+    font-size:13px;
     font-weight:500;
     background:transparent;
-    border:1px solid transparent;
-    border-bottom:none;
-    padding:9px 16px;
+    border:none;
+    padding:8px 16px;
     color:var(--ink-soft);
     cursor:pointer;
-    border-radius:6px 6px 0 0;
+    border-radius:9999px;
+    transition:all .12s;
   }
+  nav.tabs button:hover{background:var(--line); color:var(--ink);}
   nav.tabs button.active{
-    background:var(--paper);
-    color:var(--ink);
-    border-color:var(--line-strong);
+    background:var(--ink);
+    color:#fff;
+    font-weight:600;
+    box-shadow:0 1px 3px rgba(0,0,0,0.15);
   }
-  main{max-width:1080px; margin:0 auto; padding:24px 28px 80px 28px;}
+  nav.tabs button.active:hover{background:var(--ink);}
+  main{max-width:1180px; margin:0 auto; padding:24px 28px 80px 28px;}
   .view{display:none;}
-  .view.active{display:block;}
+  .view.active{display:block; animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
 
   /* ---- shared bits ---- */
   .card{
     background:var(--paper-raised);
-    border:1px solid var(--line);
-    border-radius:8px;
+    border:1px solid var(--line-strong);
+    border-radius:16px;
     padding:18px 20px;
+    box-shadow:var(--shadow);
+    transition:box-shadow .15s;
   }
   .row{display:flex; gap:14px; flex-wrap:wrap;}
   .field{display:flex; flex-direction:column; gap:5px; flex:1; min-width:160px;}
-  .field label{font-size:12px; color:var(--ink-soft); font-weight:500;}
+  .field label{font-size:11px; color:var(--ink-soft); font-weight:600; text-transform:uppercase; letter-spacing:.03em;}
   input, select, textarea{
-    font-family:'IBM Plex Sans', sans-serif;
+    font-family:'Inter','Noto Sans Thai','Noto Sans SC', sans-serif;
     font-size:14px;
     border:1px solid var(--line-strong);
-    border-radius:5px;
-    padding:8px 10px;
+    border-radius:10px;
+    padding:9px 12px;
     background:#fff;
     color:var(--ink);
+    transition:all .15s;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:none; border-color:var(--ink); box-shadow:0 0 0 3px rgba(17,24,39,0.08);
   }
   textarea{resize:vertical; min-height:56px;}
   .btn{
-    font-family:'IBM Plex Sans', sans-serif;
+    font-family:'Inter','Noto Sans Thai','Noto Sans SC', sans-serif;
     font-weight:600;
     font-size:13.5px;
-    padding:9px 16px;
-    border-radius:6px;
-    border:1px solid var(--teal);
-    background:var(--teal);
+    padding:9px 18px;
+    border-radius:10px;
+    border:1px solid var(--ink);
+    background:var(--ink);
     color:#fff;
     cursor:pointer;
+    transition:all .15s;
   }
-  .btn.secondary{background:transparent; color:var(--teal); border-color:var(--teal);}
-  .btn.ghost{background:transparent; color:var(--ink-soft); border-color:var(--line-strong);}
-  .btn.small{padding:5px 10px; font-size:12.5px;}
-  .btn.danger{border-color:var(--brick); color:var(--brick); background:transparent;}
+  .btn:hover{background:#000; transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+  .btn.secondary{background:#fff; color:var(--ink); border-color:var(--line-strong);}
+  .btn.secondary:hover{background:var(--line); border-color:#D1D5DB; transform:none; box-shadow:none;}
+  .btn.ghost{background:transparent; color:var(--ink-soft); border-color:transparent;}
+  .btn.ghost:hover{background:var(--line); color:var(--ink); transform:none; box-shadow:none;}
+  .btn.small{padding:6px 12px; font-size:12.5px; border-radius:8px;}
+  .btn.danger{border-color:transparent; color:var(--brick); background:transparent;}
+  .btn.danger:hover{background:var(--brick-soft); transform:none; box-shadow:none;}
 
   .chip{
     display:inline-flex; align-items:center; gap:5px;
-    font-size:12px; font-weight:500;
-    padding:3px 9px; border-radius:20px;
+    font-size:11.5px; font-weight:600;
+    padding:4px 11px; border-radius:9999px;
     border:1px solid var(--line-strong);
-    color:var(--ink-soft);
-    background:var(--paper);
+    color:#374151;
+    background:#F9FAFB;
   }
-  .chip.on{background:var(--teal); color:#fff; border-color:var(--teal);}
-  .status-pill{font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:20px; letter-spacing:.2px;}
-  .status-open{background:var(--brick-soft); color:var(--brick);}
-  .status-analysis{background:var(--ochre-soft); color:var(--ochre);}
-  .status-closed{background:var(--teal-soft); color:var(--teal);}
+  .chip.on{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .status-pill{font-size:11px; font-weight:700; padding:4px 10px; border-radius:9999px; letter-spacing:.03em; text-transform:uppercase;}
+  .status-open{background:var(--brick-soft); color:var(--brick); border:1px solid var(--red-line);}
+  .status-analysis{background:var(--ochre-soft); color:var(--ochre); border:1px solid var(--amber-line);}
+  .status-closed{background:var(--emerald-soft); color:var(--emerald); border:1px solid var(--emerald-line);}
 
   /* ---- Dashboard ---- */
-  .dash-toolbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; gap:12px; flex-wrap:wrap;}
-  .dash-toolbar input[type=text]{min-width:240px;}
+  .stats-bar{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px;}
+  @media(max-width:700px){ .stats-bar{grid-template-columns:1fr 1fr;} }
+  .stat-card{display:flex; align-items:center; justify-content:space-between; padding:16px 18px;}
+  .stat-label{font-size:11px; font-weight:600; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em;}
+  .stat-value{font-size:24px; font-weight:700; margin-top:4px; letter-spacing:-0.01em;}
+  .stat-icon{width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;}
+  .stat-icon.total{background:var(--line); }
+  .stat-icon.open{background:var(--brick-soft); border:1px solid var(--red-line);}
+  .stat-icon.analysis{background:var(--ochre-soft); border:1px solid var(--amber-line);}
+  .stat-icon.closed{background:var(--emerald-soft); border:1px solid var(--emerald-line);}
+
+  .dash-toolbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:12px; flex-wrap:wrap;}
+  .search-wrap{position:relative; flex:1; min-width:240px; max-width:340px;}
+  .search-wrap .search-icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--ink-soft); pointer-events:none;}
+  .search-wrap input{width:100%; padding-left:34px;}
+  .dash-toolbar input[type=text]{min-width:0;}
   .filter-chips{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
-  table.dash{width:100%; border-collapse:collapse;}
+  table.dash{width:100%; border-collapse:separate; border-spacing:0;}
   table.dash th{
-    text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.4px;
-    color:var(--ink-soft); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--line-strong);
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.05em;
+    color:#9CA3AF; font-weight:600; padding:12px 16px; border-bottom:1px solid var(--line); background:#FAFAFA;
   }
-  table.dash td{padding:11px 10px; border-bottom:1px solid var(--line); font-size:13.5px; vertical-align:top;}
-  table.dash tr.rec-row{cursor:pointer;}
-  table.dash tr.rec-row:hover td{background:var(--teal-soft);}
-  .empty-state{padding:40px 20px; text-align:center; color:var(--ink-soft);}
-  .empty-state h3{margin-bottom:6px;}
+  table.dash td{padding:13px 16px; border-bottom:1px solid var(--line); font-size:13.5px; vertical-align:middle;}
+  table.dash tr.rec-row{cursor:pointer; transition:background .12s;}
+  table.dash tr.rec-row:hover td{background:#F9FAFB;}
+  .empty-state{padding:56px 20px; text-align:center; color:var(--ink-soft);}
+  .empty-state h3{margin-bottom:6px; color:var(--ink);}
+  .empty-icon{width:56px; height:56px; border-radius:16px; background:var(--line); border:1px solid var(--line-strong); margin:0 auto 12px auto; display:flex; align-items:center; justify-content:center; font-size:22px;}
 
   /* ---- Analysis workspace ---- */
   .ws-header{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; gap:12px; flex-wrap:wrap;}
+  .ws-id-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .ws-id-badge{font-family:'JetBrains Mono', monospace; font-size:12px; padding:5px 12px; border-radius:9999px; background:var(--ink); color:#fff; font-weight:500;}
   .section{margin-bottom:26px;}
   .section-title{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
-  .section-title h2{font-size:16.5px;}
+  .section-title h2{font-size:16px;}
   .section-num{
-    width:24px; height:24px; border-radius:50%;
-    background:var(--ink); color:var(--paper-raised);
+    width:26px; height:26px; border-radius:50%;
+    background:var(--ink); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    font-family:'IBM Plex Mono', monospace; font-size:12px; font-weight:600;
+    font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:700;
     flex-shrink:0;
   }
   .step-card{
     border:1px solid var(--line-strong);
-    border-left:3px solid var(--teal);
-    border-radius:0 8px 8px 0;
+    border-radius:14px;
     background:var(--paper-raised);
-    padding:16px 18px;
+    padding:16px 18px 16px 20px;
     margin-bottom:12px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow);
   }
+  .step-card::before{content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--ink);}
   .step-card .step-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
-  .step-card .step-head .step-label{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft);}
+  .step-card .step-head .step-label{font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-soft); font-weight:600;}
   .m5-tags{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
 
-  .action-row{display:grid; grid-template-columns: 90px 1fr 1fr 130px 120px 34px; gap:8px; align-items:end; margin-bottom:8px;}
+  .action-row{display:grid; grid-template-columns: 100px 1fr 1fr 140px 130px 36px; gap:10px; align-items:end; margin-bottom:10px;}
   .action-row .field{min-width:0;}
   @media(max-width:800px){ .action-row{grid-template-columns:1fr 1fr;} }
 
   .tag-summary{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;}
   .rc5m{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
   .rc5m label{
-    display:flex; align-items:center; gap:5px; font-size:12.5px;
-    border:1px solid var(--line-strong); border-radius:6px; padding:5px 10px; cursor:pointer;
+    display:flex; align-items:center; gap:5px; font-size:12.5px; font-weight:500;
+    border:1px solid var(--line-strong); border-radius:9999px; padding:6px 12px; cursor:pointer;
+    background:#F9FAFB; transition:all .12s;
   }
+  .rc5m label:hover{background:var(--line);}
 
   /* ---- Knowledge search ---- */
   .kb-intro{margin-bottom:18px; color:var(--ink-soft); max-width:640px;}
   .kb-filters{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px;}
   @media(max-width:820px){ .kb-filters{grid-template-columns:1fr 1fr;} }
   .kb-result{
-    border:1px solid var(--line-strong); border-radius:8px; padding:14px 16px; margin-bottom:10px;
-    background:var(--paper-raised);
+    border:1px solid var(--line-strong); border-radius:16px; padding:16px 18px; margin-bottom:10px;
+    background:var(--paper-raised); box-shadow:var(--shadow);
   }
-  .kb-result h4{font-family:'Spectral',serif; font-size:15px; margin:0 0 4px 0;}
+  .kb-result h4{font-family:'Inter','Noto Sans Thai','Noto Sans SC',sans-serif; font-weight:600; font-size:15px; margin:0 0 4px 0;}
   .kb-result .meta{font-size:12px; color:var(--ink-soft); margin-bottom:8px;}
-  .kb-match{font-size:12px; color:var(--teal); font-weight:600;}
+  .kb-match{font-size:12px; color:var(--ink); font-weight:600;}
 
   .footer-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:8px;}
   .hint{font-size:12px; color:var(--ink-soft);}
+
+  .photo-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:10px; margin-top:8px;}
+  .photo-thumb{
+    position:relative; border-radius:12px; overflow:hidden; aspect-ratio:1;
+    border:1px solid var(--line-strong); background:#F9FAFB;
+  }
+  .photo-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .photo-thumb .rm{
+    position:absolute; top:5px; right:5px; width:22px; height:22px; border-radius:50%;
+    background:rgba(17,24,39,0.75); color:#fff; border:none; font-size:12px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .photo-thumb.uploading{display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-size:11px; text-align:center; padding:6px;}
+
+  .lang-btn{border-radius:9999px !important;}
+  .btn.ghost.active-lang{background:var(--ink); color:#fff;}
+
+  .conn-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:600; font-family:'JetBrains Mono', monospace;
+    padding:5px 12px; border-radius:9999px; border:1px solid var(--line-strong);
+    background:#F9FAFB; color:var(--ink-soft);
+  }
+  .conn-badge .dot{width:7px; height:7px; border-radius:50%; background:var(--ink-soft); flex-shrink:0;}
+  .conn-badge.conn-connected{background:var(--emerald-soft); color:var(--emerald); border-color:var(--emerald-line);}
+  .conn-badge.conn-connected .dot{background:var(--emerald);}
+  .conn-badge.conn-local{background:var(--ochre-soft); color:var(--ochre); border-color:var(--amber-line);}
+  .conn-badge.conn-local .dot{background:var(--ochre);}
+  .conn-badge.conn-error{background:var(--brick-soft); color:var(--brick); border-color:var(--red-line);}
+  .conn-badge.conn-error .dot{background:var(--brick); animation:pulse-dot 1.2s infinite;}
+  .conn-badge.conn-loading .dot{animation:pulse-dot 1.2s infinite;}
+  @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.35;}}
 </style>
 </head>
 <body>
 
 <header class="app">
   <div class="app-title-row">
-    <div>
-      <h1>Quality Analysis Record</h1>
-      <div class="subtitle">บันทึกการวิเคราะห์หาสาเหตุและมาตรการแก้ไข — สะสมเป็นฐานความรู้สำหรับ NPD และการรับ spec ลูกค้าใหม่</div>
+    <div class="brand-row">
+      <div class="brand-logo">ICO</div>
+      <div>
+        <div class="brand-title">Quality Analysis Record</div>
+        <div class="brand-subtitle" data-i18n="subtitle"></div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span id="syncStatus" class="conn-badge conn-unknown"><span class="dot"></span><span class="txt"></span></span>
+      <div style="display:flex; gap:4px;">
+        <button class="btn ghost small lang-btn" data-lang="th">TH</button>
+        <button class="btn ghost small lang-btn" data-lang="zh">中文</button>
+      </div>
+      <button class="btn ghost small" id="btnSettings" data-i18n="btn_settings"></button>
     </div>
   </div>
-  <div class="app-title-row" style="margin-top:12px; align-items:center;">
-    <nav class="tabs" style="margin-top:0;">
-      <button class="tab-btn active" data-view="dashboard">แดชบอร์ด</button>
-      <button class="tab-btn" data-view="workspace">วิเคราะห์ปัญหา</button>
-      <button class="tab-btn" data-view="kb">ค้นหาความรู้ (NPD Lookup)</button>
-    </nav>
-    <div style="display:flex; align-items:center; gap:8px; padding-bottom:6px;">
-      <span id="syncStatus" class="hint mono"></span>
-      <button class="btn ghost small" id="btnSettings">⚙ ตั้งค่า Google Sheet</button>
+  <nav class="tabs">
+    <button class="tab-btn active" data-view="dashboard" data-i18n="tab_dashboard"></button>
+    <button class="tab-btn" data-view="workspace" data-i18n="tab_workspace"></button>
+    <button class="tab-btn" data-view="kb" data-i18n="tab_kb"></button>
+  </nav>
+  <div id="settingsPanel" class="card" style="display:none; margin:0 0 14px 0; max-width:640px;">
+    <div class="row">
+      <div class="field">
+        <label>Supabase Project URL</label>
+        <input id="supabaseUrlInput" placeholder="https://xxxxxxxx.supabase.co">
+      </div>
+      <div class="field">
+        <label>Supabase anon public API key</label>
+        <input id="supabaseKeyInput" placeholder="eyJhbGciOi...">
+      </div>
     </div>
-  </div>
-  <div id="settingsPanel" class="card" style="display:none; margin:14px 0 0 0; max-width:640px;">
-    <div class="field">
-      <label>Apps Script Web App URL</label>
-      <input id="scriptUrlInput" placeholder="https://script.google.com/macros/s/xxxxxxxx/exec">
-    </div>
-    <div class="hint" style="margin-top:6px;">
-      ต้องสร้าง Google Sheet ใหม่ → Extensions → Apps Script → วางโค้ด Code.gs ที่แนบให้ → Deploy เป็น Web App → คัดลอก URL มาใส่ตรงนี้
-    </div>
+    <div class="hint" style="margin-top:6px;" data-i18n="settings_hint"></div>
     <div class="footer-actions" style="margin-top:12px;">
-      <button class="btn ghost" id="btnDisconnectSheet">เลิกเชื่อม / ใช้ local อย่างเดียว</button>
-      <button class="btn" id="btnSaveScriptUrl">บันทึกและเชื่อมต่อ</button>
+      <button class="btn ghost" id="btnDisconnectSheet" data-i18n="btn_disconnect"></button>
+      <button class="btn" id="btnSaveScriptUrl" data-i18n="btn_connect"></button>
     </div>
   </div>
 </header>
@@ -226,23 +319,45 @@
 
   <!-- ============ DASHBOARD ============ -->
   <section id="view-dashboard" class="view active">
+    <div class="stats-bar">
+      <div class="card stat-card">
+        <div><div class="stat-label" data-i18n="filter_all"></div><div class="stat-value" id="statTotal">0</div></div>
+        <div class="stat-icon total">📊</div>
+      </div>
+      <div class="card stat-card">
+        <div><div class="stat-label" data-i18n="status_open"></div><div class="stat-value" id="statOpen" style="color:var(--brick);">0</div></div>
+        <div class="stat-icon open">🔴</div>
+      </div>
+      <div class="card stat-card">
+        <div><div class="stat-label" data-i18n="status_analysis"></div><div class="stat-value" id="statAnalysis" style="color:var(--ochre);">0</div></div>
+        <div class="stat-icon analysis">🟡</div>
+      </div>
+      <div class="card stat-card">
+        <div><div class="stat-label" data-i18n="status_closed"></div><div class="stat-value" id="statClosed" style="color:var(--emerald);">0</div></div>
+        <div class="stat-icon closed">✅</div>
+      </div>
+    </div>
     <div class="dash-toolbar">
-      <input type="text" id="dashSearch" placeholder="ค้นหาด้วย ID, สินค้า, ลักษณะปัญหา...">
-      <button class="btn" id="btnNewRecord">+ บันทึกใหม่</button>
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="dashSearch" data-i18n-ph="dash_search_ph">
+      </div>
+      <button class="btn" id="btnNewRecord" data-i18n="btn_new_record"></button>
     </div>
     <div class="filter-chips" id="statusFilters"></div>
     <div class="card" style="padding:0; overflow:hidden;">
       <table class="dash">
         <thead>
           <tr>
-            <th>ID</th><th>สินค้า</th><th>ลักษณะปัญหา</th><th>Root cause category</th><th>สถานะ</th><th>Severity</th><th>วันที่</th>
+            <th>ID</th><th data-i18n="col_product"></th><th data-i18n="col_symptom"></th><th data-i18n="col_rootcause"></th><th data-i18n="col_status"></th><th data-i18n="col_severity"></th><th data-i18n="col_date"></th>
           </tr>
         </thead>
         <tbody id="dashTableBody"></tbody>
       </table>
       <div id="dashEmpty" class="empty-state" style="display:none;">
-        <h3>ยังไม่มีบันทึก</h3>
-        <div>เริ่มบันทึกการวิเคราะห์ปัญหาแรก เพื่อเริ่มสะสมฐานความรู้</div>
+        <div class="empty-icon">📄</div>
+        <h3 data-i18n="dash_empty_title"></h3>
+        <div data-i18n="dash_empty_sub"></div>
       </div>
     </div>
   </section>
@@ -251,111 +366,149 @@
   <section id="view-workspace" class="view">
     <div class="ws-header">
       <div>
-        <div class="hint mono" id="wsIdLabel">รหัสใหม่ — ยังไม่บันทึก</div>
-        <h2 id="wsTitle" style="font-size:19px;">บันทึกการวิเคราะห์ทางเทคนิค</h2>
+        <div class="ws-id-row">
+          <button class="btn ghost small" id="btnBackWs" data-i18n="btn_back"></button>
+          <span id="wsIdLabel" class="ws-id-badge mono" data-i18n="ws_new_id"></span>
+          <span id="wsStatusPill" class="status-pill status-open">Open</span>
+        </div>
+        <h2 id="wsTitle" style="font-size:19px; margin-top:10px;" data-i18n="ws_default_title"></h2>
       </div>
-      <span id="wsStatusPill" class="status-pill status-open">Open</span>
     </div>
 
     <!-- Section 1: Issue header -->
     <div class="section">
-      <div class="section-title"><div class="section-num">1</div><h2>ข้อมูลปัญหา</h2></div>
+      <div class="section-title"><div class="section-num">1</div><h2 data-i18n="sec1_title"></h2></div>
       <div class="card">
         <div class="row">
-          <div class="field"><label>สินค้า / SKU</label><input id="fProduct" placeholder="เช่น Snowball Coconut 350g"></div>
-          <div class="field"><label>ลูกค้า</label><input id="fCustomer" placeholder="เช่น Joyvio / Internal"></div>
-          <div class="field"><label>ตู้ container เลขที่</label><input id="fContainerNo" placeholder="เช่น TCLU1234567"></div>
+          <div class="field"><label data-i18n="lbl_product"></label><input id="fProduct" placeholder="เช่น Snowball Coconut 350g"></div>
+          <div class="field"><label data-i18n="lbl_customer"></label><input id="fCustomer" placeholder="เช่น Joyvio / Internal"></div>
+          <div class="field"><label data-i18n="lbl_container_no"></label><input id="fContainerNo" placeholder="เช่น TCLU1234567"></div>
         </div>
         <div class="row" style="margin-top:12px;">
-          <div class="field"><label>ตู้ปิดวันที่</label><input type="date" id="fContainerCloseDate"></div>
-          <div class="field"><label>ผลิตที่ไหน</label><input id="fProductionSite" placeholder="เช่น Plant 1 / Plant 2"></div>
+          <div class="field"><label data-i18n="lbl_container_close_date"></label><input type="date" id="fContainerCloseDate"></div>
+          <div class="field"><label data-i18n="lbl_production_site"></label><input id="fProductionSite" placeholder="เช่น Plant 1 / Plant 2"></div>
         </div>
         <div class="row" style="margin-top:12px;">
-          <div class="field"><label>ลักษณะปัญหา (Defect symptom)</label><input id="fSymptom" placeholder="เช่น Seal leakage ที่ side seal"></div>
+          <div class="field"><label data-i18n="lbl_symptom"></label><input id="fSymptom" placeholder="เช่น Seal leakage ที่ side seal"></div>
           <div class="field" style="max-width:160px;">
-            <label>Severity</label>
-            <select id="fSeverity"><option>Minor</option><option>Major</option><option>Critical</option></select>
+            <label data-i18n="lbl_severity"></label>
+            <select id="fSeverity">
+              <option value="Minor" data-i18n="sev_minor"></option>
+              <option value="Major" data-i18n="sev_major"></option>
+              <option value="Critical" data-i18n="sev_critical"></option>
+            </select>
           </div>
           <div class="field" style="max-width:160px;">
-            <label>สถานะ</label>
-            <select id="fStatus"><option value="open">Open</option><option value="analysis">In Analysis</option><option value="closed">Closed</option></select>
+            <label data-i18n="lbl_status"></label>
+            <select id="fStatus">
+              <option value="open" data-i18n="status_open"></option>
+              <option value="analysis" data-i18n="status_analysis"></option>
+              <option value="closed" data-i18n="status_closed"></option>
+            </select>
           </div>
         </div>
         <div style="margin-top:14px;">
-          <label style="font-size:12px; color:var(--ink-soft); font-weight:500;">แท็กสำหรับค้นหาย้อนหลัง (ใช้ตอน NPD / รับ spec ใหม่)</label>
+          <label style="font-size:12px; color:var(--ink-soft); font-weight:500;" data-i18n="lbl_kb_tags"></label>
           <div class="row" style="margin-top:6px;">
-            <div class="field"><label>ประเภทสินค้า</label><input id="tProductType" placeholder="เช่น Snowball / กะทิ / น้ำมะพร้าว"></div>
-            <div class="field"><label>วัตถุดิบ</label><input id="tMaterial" placeholder="เช่น Film ซีล / น้ำยาง"></div>
-            <div class="field"><label>ขั้นตอนกระบวนการ</label><input id="tProcess" placeholder="เช่น Retort / Filling / Freezing"></div>
-            <div class="field"><label>ประเภทข้อบกพร่อง</label><input id="tDefectType" placeholder="เช่น Seal failure / Discoloration"></div>
+            <div class="field"><label data-i18n="lbl_product_type"></label><input id="tProductType" placeholder="เช่น Snowball / กะทิ / น้ำมะพร้าว"></div>
+            <div class="field"><label data-i18n="lbl_material"></label><input id="tMaterial" placeholder="เช่น Film ซีล / น้ำยาง"></div>
+            <div class="field"><label data-i18n="lbl_process"></label><input id="tProcess" placeholder="เช่น Retort / Filling / Freezing"></div>
+            <div class="field"><label data-i18n="lbl_defect_type"></label><input id="tDefectType" placeholder="เช่น Seal failure / Discoloration"></div>
           </div>
+        </div>
+        <div style="margin-top:16px;">
+          <label style="font-size:12px; color:var(--ink-soft); font-weight:500;"><span data-i18n="lbl_photos"></span> (<span data-i18n="lbl_photos_max_prefix"></span> <span id="photoMaxLabel">5</span> <span data-i18n="lbl_photos_max_suffix"></span>)</label>
+          <div id="photoGrid" class="photo-grid"></div>
+          <input type="file" id="photoFileInput" accept="image/*" multiple style="display:none;">
+          <button class="btn secondary small" id="btnAddPhoto" style="margin-top:8px;" data-i18n="btn_add_photo"></button>
+          <span id="photoStatus" class="hint" style="margin-left:8px;"></span>
         </div>
       </div>
     </div>
 
     <!-- Section 2: Technical analysis steps -->
     <div class="section">
-      <div class="section-title"><div class="section-num">2</div><h2>Technical Analysis — ขั้นตอนการวิเคราะห์</h2></div>
+      <div class="section-title"><div class="section-num">2</div><h2 data-i18n="sec2_title"></h2></div>
 
       <div class="card" style="margin-bottom:14px;">
-        <h3 style="font-size:14.5px; margin-bottom:12px;">ข้อมูลประกอบการสอบสวนเบื้องต้น</h3>
+        <h3 style="font-size:14.5px; margin-bottom:12px;" data-i18n="inv_title"></h3>
         <div class="row">
-          <div class="field"><label>ผลิตที่โรงงานไหน</label><input id="invProductionSite" placeholder="เช่น Plant 1"></div>
-          <div class="field"><label>QD ผู้รับผิดชอบ</label><input id="invQD" placeholder="ชื่อผู้รับผิดชอบฝ่าย QD"></div>
-          <div class="field"><label>TD ผู้รับผิดชอบ</label><input id="invTD" placeholder="ชื่อผู้รับผิดชอบฝ่าย TD"></div>
+          <div class="field"><label data-i18n="inv_site"></label><input id="invProductionSite" placeholder="เช่น Plant 1"></div>
+          <div class="field"><label data-i18n="inv_qd"></label><input id="invQD" data-i18n-ph="inv_qd_ph"></div>
+          <div class="field"><label data-i18n="inv_td"></label><input id="invTD" data-i18n-ph="inv_td_ph"></div>
         </div>
 
         <div class="row" style="margin-top:14px; align-items:flex-end;">
           <div class="field" style="max-width:220px;">
-            <label>ตู้ก่อนหน้านี้ที่ผลิตเวลาใกล้เคียงกัน มีปัญหาเดียวกันหรือไม่</label>
-            <select id="invPriorNearbyStatus"><option value="">- เลือก -</option><option>มีปัญหา</option><option>ไม่มีปัญหา</option><option>ไม่ทราบ / ไม่ได้ตรวจสอบ</option></select>
+            <label data-i18n="inv_prior_nearby"></label>
+            <select id="invPriorNearbyStatus">
+              <option value="" data-i18n="opt_select"></option>
+              <option value="มีปัญหา" data-i18n="opt_has_issue"></option>
+              <option value="ไม่มีปัญหา" data-i18n="opt_no_issue"></option>
+              <option value="ไม่ทราบ / ไม่ได้ตรวจสอบ" data-i18n="opt_unknown"></option>
+            </select>
           </div>
-          <div class="field"><label>รายละเอียด</label><input id="invPriorNearbyDetail" placeholder="เช่น ตู้ที่ปิดวันเดียวกัน 2 ตู้ ไม่พบปัญหา"></div>
+          <div class="field"><label data-i18n="lbl_detail"></label><input id="invPriorNearbyDetail" data-i18n-ph="inv_prior_nearby_detail_ph"></div>
         </div>
 
         <div class="row" style="margin-top:10px; align-items:flex-end;">
           <div class="field" style="max-width:220px;">
-            <label>ตู้ก่อนหน้านี้ที่ผลิตที่เดียวกัน มีปัญหาเดียวกันหรือไม่</label>
-            <select id="invPriorSameSiteStatus"><option value="">- เลือก -</option><option>มีปัญหา</option><option>ไม่มีปัญหา</option><option>ไม่ทราบ / ไม่ได้ตรวจสอบ</option></select>
+            <label data-i18n="inv_prior_samesite"></label>
+            <select id="invPriorSameSiteStatus">
+              <option value="" data-i18n="opt_select"></option>
+              <option value="มีปัญหา" data-i18n="opt_has_issue"></option>
+              <option value="ไม่มีปัญหา" data-i18n="opt_no_issue"></option>
+              <option value="ไม่ทราบ / ไม่ได้ตรวจสอบ" data-i18n="opt_unknown"></option>
+            </select>
           </div>
-          <div class="field"><label>รายละเอียด</label><input id="invPriorSameSiteDetail" placeholder="เช่น พบปัญหาเดียวกัน 1 ครั้ง เมื่อ ต.ค. 2567"></div>
+          <div class="field"><label data-i18n="lbl_detail"></label><input id="invPriorSameSiteDetail" data-i18n-ph="inv_prior_samesite_detail_ph"></div>
         </div>
 
         <div class="row" style="margin-top:10px; align-items:flex-end;">
           <div class="field" style="max-width:220px;">
-            <label>เอกสารตรวจสอบตู้รับเข้า ได้นำมาพิจารณาหรือไม่</label>
-            <select id="invInboundDocUsed"><option value="">- เลือก -</option><option>ใช้พิจารณาแล้ว</option><option>ไม่ได้ใช้</option><option>ไม่มีเอกสาร</option></select>
+            <label data-i18n="inv_inbound_doc"></label>
+            <select id="invInboundDocUsed">
+              <option value="" data-i18n="opt_select"></option>
+              <option value="ใช้พิจารณาแล้ว" data-i18n="opt_used"></option>
+              <option value="ไม่ได้ใช้" data-i18n="opt_not_used"></option>
+              <option value="ไม่มีเอกสาร" data-i18n="opt_no_doc"></option>
+            </select>
           </div>
-          <div class="field"><label>เอกสารอ้างอิง / ตำแหน่งจัดเก็บ</label><input id="invInboundDocRef" placeholder="เช่น ใบตรวจรับตู้เลขที่..."></div>
+          <div class="field"><label data-i18n="lbl_doc_ref"></label><input id="invInboundDocRef" data-i18n-ph="inv_inbound_doc_ref_ph"></div>
         </div>
 
         <div class="row" style="margin-top:10px; align-items:flex-end;">
           <div class="field" style="max-width:220px;">
-            <label>เอกสารผังตู้ (loading plan) ได้นำมาพิจารณาหรือไม่</label>
-            <select id="invLayoutDocUsed"><option value="">- เลือก -</option><option>ใช้พิจารณาแล้ว</option><option>ไม่ได้ใช้</option><option>ไม่มีเอกสาร</option></select>
+            <label data-i18n="inv_layout_doc"></label>
+            <select id="invLayoutDocUsed">
+              <option value="" data-i18n="opt_select"></option>
+              <option value="ใช้พิจารณาแล้ว" data-i18n="opt_used"></option>
+              <option value="ไม่ได้ใช้" data-i18n="opt_not_used"></option>
+              <option value="ไม่มีเอกสาร" data-i18n="opt_no_doc"></option>
+            </select>
           </div>
-          <div class="field"><label>เอกสารอ้างอิง / ตำแหน่งจัดเก็บ</label><input id="invLayoutDocRef" placeholder="เช่น ผังตู้เลขที่..."></div>
+          <div class="field"><label data-i18n="lbl_doc_ref"></label><input id="invLayoutDocRef" data-i18n-ph="inv_layout_doc_ref_ph"></div>
         </div>
       </div>
 
       <div id="stepsContainer"></div>
-      <button class="btn secondary small" id="btnAddStep">+ เพิ่ม Step</button>
+      <button class="btn secondary small" id="btnAddStep" data-i18n="btn_add_step"></button>
     </div>
 
     <!-- Section 3: Root cause -->
     <div class="section">
-      <div class="section-title"><div class="section-num">3</div><h2>Root Cause</h2></div>
+      <div class="section-title"><div class="section-num">3</div><h2 data-i18n="sec3_title"></h2></div>
       <div class="card">
-        <div class="field"><label>สาเหตุที่แท้จริง</label><textarea id="fRootCause" placeholder="สรุปสาเหตุหลักที่ยืนยันจาก step การวิเคราะห์ด้านบน"></textarea></div>
+        <div class="field"><label data-i18n="lbl_rootcause"></label><textarea id="fRootCause" data-i18n-ph="lbl_rootcause_ph"></textarea></div>
         <div style="margin-top:10px;">
-          <label style="font-size:12px; color:var(--ink-soft); font-weight:500;">ปัจจัยที่เกี่ยวข้อง (5M1E)</label>
+          <label style="font-size:12px; color:var(--ink-soft); font-weight:500;" data-i18n="lbl_5m1e"></label>
           <div class="rc5m" id="rc5mBox">
-            <label><input type="checkbox" value="Man"> Man</label>
-            <label><input type="checkbox" value="Machine"> Machine</label>
-            <label><input type="checkbox" value="Material"> Material</label>
-            <label><input type="checkbox" value="Method"> Method</label>
-            <label><input type="checkbox" value="Environment"> Environment</label>
-            <label><input type="checkbox" value="Measurement"> Measurement</label>
+            <label><input type="checkbox" value="Man"> <span data-i18n="m_man"></span></label>
+            <label><input type="checkbox" value="Machine"> <span data-i18n="m_machine"></span></label>
+            <label><input type="checkbox" value="Material"> <span data-i18n="m_material"></span></label>
+            <label><input type="checkbox" value="Method"> <span data-i18n="m_method"></span></label>
+            <label><input type="checkbox" value="Environment"> <span data-i18n="m_environment"></span></label>
+            <label><input type="checkbox" value="Measurement"> <span data-i18n="m_measurement"></span></label>
           </div>
         </div>
       </div>
@@ -363,38 +516,36 @@
 
     <!-- Section 4: Actions -->
     <div class="section">
-      <div class="section-title"><div class="section-num">4</div><h2>Action Management</h2></div>
+      <div class="section-title"><div class="section-num">4</div><h2 data-i18n="sec4_title"></h2></div>
       <div class="card">
         <div id="actionsContainer"></div>
-        <button class="btn secondary small" id="btnAddAction">+ เพิ่ม Action</button>
+        <button class="btn secondary small" id="btnAddAction" data-i18n="btn_add_action"></button>
       </div>
     </div>
 
     <!-- Section 5: Lessons learned -->
     <div class="section">
-      <div class="section-title"><div class="section-num">5</div><h2>Lessons Learned</h2></div>
+      <div class="section-title"><div class="section-num">5</div><h2 data-i18n="sec5_title"></h2></div>
       <div class="card">
-        <div class="field"><label>สรุปบทเรียน สำหรับผู้ที่จะพัฒนาสินค้าใหม่/รับ spec ใหม่ที่เกี่ยวข้องควรรู้อะไร</label><textarea id="fLessons" placeholder="เช่น: หลีกเลี่ยง material X ร่วมกับ retort > 121°C โดยไม่เพิ่มการเฝ้าระวัง seal"></textarea></div>
+        <div class="field"><label data-i18n="lbl_lessons"></label><textarea id="fLessons" data-i18n-ph="lbl_lessons_ph"></textarea></div>
       </div>
     </div>
 
     <div class="footer-actions">
-      <button class="btn ghost" id="btnCancelWs">ยกเลิก</button>
-      <button class="btn danger" id="btnDeleteWs" style="display:none;">ลบบันทึกนี้</button>
-      <button class="btn" id="btnSaveWs">บันทึก</button>
+      <button class="btn ghost" id="btnCancelWs" data-i18n="btn_cancel"></button>
+      <button class="btn danger" id="btnDeleteWs" style="display:none;" data-i18n="btn_delete_record"></button>
+      <button class="btn" id="btnSaveWs" data-i18n="btn_save"></button>
     </div>
   </section>
 
   <!-- ============ KNOWLEDGE SEARCH ============ -->
   <section id="view-kb" class="view">
-    <div class="kb-intro">
-      ใช้หน้านี้ตอนเริ่มต้น NPD หรือรับ spec ใหม่จากลูกค้า — ค้นหาว่าสินค้า/วัตถุดิบ/กระบวนการแบบนี้ เคยมีปัญหาอะไรมาก่อน ก่อนเริ่มผลิตจริง
-    </div>
+    <div class="kb-intro" data-i18n="kb_intro"></div>
     <div class="kb-filters">
-      <div class="field"><label>ประเภทสินค้า</label><input id="kbProductType" placeholder="เช่น Snowball"></div>
-      <div class="field"><label>วัตถุดิบ</label><input id="kbMaterial" placeholder="เช่น Film ซีล"></div>
-      <div class="field"><label>ขั้นตอนกระบวนการ</label><input id="kbProcess" placeholder="เช่น Retort"></div>
-      <div class="field"><label>ประเภทข้อบกพร่อง</label><input id="kbDefectType" placeholder="เช่น Seal failure"></div>
+      <div class="field"><label data-i18n="lbl_product_type"></label><input id="kbProductType"></div>
+      <div class="field"><label data-i18n="lbl_material"></label><input id="kbMaterial"></div>
+      <div class="field"><label data-i18n="lbl_process"></label><input id="kbProcess"></div>
+      <div class="field"><label data-i18n="lbl_defect_type"></label><input id="kbDefectType"></div>
     </div>
     <div id="kbResults"></div>
   </section>
@@ -403,6 +554,197 @@
 
 <script>
 const STORAGE_KEY = 'icoco_ta_records_v1';
+
+/* ================= i18n ================= */
+const LANG_KEY = 'icoco_qa_lang';
+let lang = localStorage.getItem(LANG_KEY) || 'th';
+
+const I18N = {
+  subtitle:{th:"บันทึกการวิเคราะห์หาสาเหตุและมาตรการแก้ไข — สะสมเป็นฐานความรู้สำหรับ NPD และการรับ spec ลูกค้าใหม่", zh:"记录问题原因分析与改善措施 — 积累知识库，供新产品开发（NPD）及接单前参考"},
+  tab_dashboard:{th:"แดชบอร์ด", zh:"看板"},
+  tab_workspace:{th:"วิเคราะห์ปัญหา", zh:"问题分析"},
+  tab_kb:{th:"ค้นหาความรู้ (NPD Lookup)", zh:"知识查询（NPD查询）"},
+  btn_settings:{th:"⚙ ตั้งค่า Supabase", zh:"⚙ Supabase 设置"},
+  settings_hint:{th:"สร้างโปรเจกต์ Supabase ใหม่ → รันสคริปต์ setup.sql ที่แนบให้ใน SQL Editor → คัดลอก Project URL และ anon public key จาก Settings → API มาใส่ตรงนี้", zh:"新建 Supabase 项目 → 在 SQL Editor 中运行附带的 setup.sql → 从 Settings → API 复制 Project URL 和 anon public key 并粘贴到此处"},
+  btn_disconnect:{th:"เลิกเชื่อม / ใช้ local อย่างเดียว", zh:"断开连接 / 仅使用本地模式"},
+  btn_connect:{th:"บันทึกและเชื่อมต่อ", zh:"保存并连接"},
+
+  dash_search_ph:{th:"ค้นหาด้วย ID, สินค้า, ลักษณะปัญหา...", zh:"按编号、产品、问题描述搜索..."},
+  btn_new_record:{th:"+ บันทึกใหม่", zh:"+ 新建记录"},
+  col_product:{th:"สินค้า", zh:"产品"},
+  col_symptom:{th:"ลักษณะปัญหา", zh:"问题描述"},
+  col_rootcause:{th:"Root cause category", zh:"根本原因类别"},
+  col_status:{th:"สถานะ", zh:"状态"},
+  col_severity:{th:"Severity", zh:"严重程度"},
+  col_date:{th:"วันที่", zh:"日期"},
+  dash_empty_title:{th:"ยังไม่มีบันทึก", zh:"尚无记录"},
+  dash_empty_sub:{th:"เริ่มบันทึกการวิเคราะห์ปัญหาแรก เพื่อเริ่มสะสมฐานความรู้", zh:"开始记录第一笔问题分析，开始积累知识库"},
+  filter_all:{th:"ทั้งหมด", zh:"全部"},
+
+  ws_new_id:{th:"รหัสใหม่ — ยังไม่บันทึก", zh:"新编号 — 尚未保存"},
+  ws_default_title:{th:"บันทึกการวิเคราะห์ทางเทคนิค", zh:"技术分析记录"},
+  ws_id_prefix_new:{th:"รหัสที่จะบันทึก: ", zh:"即将保存的编号："},
+  ws_id_prefix_existing:{th:"รหัส: ", zh:"编号："},
+
+  sec1_title:{th:"ข้อมูลปัญหา", zh:"问题信息"},
+  lbl_product:{th:"สินค้า / SKU", zh:"产品 / SKU"},
+  lbl_customer:{th:"ลูกค้า", zh:"客户"},
+  lbl_container_no:{th:"ตู้ container เลขที่", zh:"货柜号"},
+  lbl_container_close_date:{th:"ตู้ปิดวันที่", zh:"封柜日期"},
+  lbl_production_site:{th:"ผลิตที่ไหน", zh:"生产工厂"},
+  lbl_symptom:{th:"ลักษณะปัญหา (Defect symptom)", zh:"问题描述（缺陷现象）"},
+  lbl_severity:{th:"Severity", zh:"严重程度"},
+  sev_minor:{th:"Minor", zh:"轻微"},
+  sev_major:{th:"Major", zh:"严重"},
+  sev_critical:{th:"Critical", zh:"非常严重"},
+  lbl_status:{th:"สถานะ", zh:"状态"},
+  status_open:{th:"Open", zh:"待处理"},
+  status_analysis:{th:"In Analysis", zh:"分析中"},
+  status_closed:{th:"Closed", zh:"已结案"},
+  lbl_kb_tags:{th:"แท็กสำหรับค้นหาย้อนหลัง (ใช้ตอน NPD / รับ spec ใหม่)", zh:"用于日后查询的标签（供 NPD / 接受新规格时使用）"},
+  lbl_product_type:{th:"ประเภทสินค้า", zh:"产品类型"},
+  lbl_material:{th:"วัตถุดิบ", zh:"原材料"},
+  lbl_process:{th:"ขั้นตอนกระบวนการ", zh:"工艺步骤"},
+  lbl_defect_type:{th:"ประเภทข้อบกพร่อง", zh:"缺陷类型"},
+  lbl_photos:{th:"รูปภาพประกอบ", zh:"附件照片"},
+  lbl_photos_max_prefix:{th:"สูงสุด", zh:"最多"},
+  lbl_photos_max_suffix:{th:"รูป", zh:"张"},
+  btn_add_photo:{th:"+ เพิ่มรูป", zh:"+ 添加照片"},
+
+  sec2_title:{th:"Technical Analysis — ขั้นตอนการวิเคราะห์", zh:"技术分析 — 分析步骤"},
+  inv_title:{th:"ข้อมูลประกอบการสอบสวนเบื้องต้น", zh:"初步调查背景资料"},
+  inv_site:{th:"ผลิตที่โรงงานไหน", zh:"生产工厂"},
+  inv_qd:{th:"QD ผู้รับผิดชอบ", zh:"负责的QD"},
+  inv_qd_ph:{th:"ชื่อผู้รับผิดชอบฝ่าย QD", zh:"QD负责人姓名"},
+  inv_td:{th:"TD ผู้รับผิดชอบ", zh:"负责的TD"},
+  inv_td_ph:{th:"ชื่อผู้รับผิดชอบฝ่าย TD", zh:"TD负责人姓名"},
+  inv_prior_nearby:{th:"ตู้ก่อนหน้านี้ที่ผลิตเวลาใกล้เคียงกัน มีปัญหาเดียวกันหรือไม่", zh:"生产时间相近的前几柜是否有相同问题"},
+  opt_select:{th:"- เลือก -", zh:"- 请选择 -"},
+  opt_has_issue:{th:"มีปัญหา", zh:"有问题"},
+  opt_no_issue:{th:"ไม่มีปัญหา", zh:"无问题"},
+  opt_unknown:{th:"ไม่ทราบ / ไม่ได้ตรวจสอบ", zh:"不清楚 / 未检查"},
+  lbl_detail:{th:"รายละเอียด", zh:"详情"},
+  inv_prior_nearby_detail_ph:{th:"เช่น ตู้ที่ปิดวันเดียวกัน 2 ตู้ ไม่พบปัญหา", zh:"例如：同日封柜的2个柜子未发现问题"},
+  inv_prior_samesite:{th:"ตู้ก่อนหน้านี้ที่ผลิตที่เดียวกัน มีปัญหาเดียวกันหรือไม่", zh:"同一生产地点的前几柜是否有相同问题"},
+  inv_prior_samesite_detail_ph:{th:"เช่น พบปัญหาเดียวกัน 1 ครั้ง เมื่อ ต.ค. 2567", zh:"例如：2024年10月曾发生过1次相同问题"},
+  inv_inbound_doc:{th:"เอกสารตรวจสอบตู้รับเข้า ได้นำมาพิจารณาหรือไม่", zh:"是否已参考货柜进厂检查文件"},
+  opt_used:{th:"ใช้พิจารณาแล้ว", zh:"已参考"},
+  opt_not_used:{th:"ไม่ได้ใช้", zh:"未使用"},
+  opt_no_doc:{th:"ไม่มีเอกสาร", zh:"无相关文件"},
+  lbl_doc_ref:{th:"เอกสารอ้างอิง / ตำแหน่งจัดเก็บ", zh:"参考文件 / 存放位置"},
+  inv_inbound_doc_ref_ph:{th:"เช่น ใบตรวจรับตู้เลขที่...", zh:"例如：进厂验收单编号..."},
+  inv_layout_doc:{th:"เอกสารผังตู้ (loading plan) ได้นำมาพิจารณาหรือไม่", zh:"是否已参考装柜配载图（loading plan）"},
+  inv_layout_doc_ref_ph:{th:"เช่น ผังตู้เลขที่...", zh:"例如：配载图编号..."},
+  btn_add_step:{th:"+ เพิ่ม Step", zh:"+ 添加步骤"},
+
+  sec3_title:{th:"Root Cause", zh:"根本原因"},
+  lbl_rootcause:{th:"สาเหตุที่แท้จริง", zh:"真正原因"},
+  lbl_rootcause_ph:{th:"สรุปสาเหตุหลักที่ยืนยันจาก step การวิเคราะห์ด้านบน", zh:"总结上方分析步骤中确认的主要原因"},
+  lbl_5m1e:{th:"ปัจจัยที่เกี่ยวข้อง (5M1E)", zh:"相关因素（5M1E）"},
+  m_man:{th:"Man", zh:"人 (Man)"},
+  m_machine:{th:"Machine", zh:"机 (Machine)"},
+  m_material:{th:"Material", zh:"料 (Material)"},
+  m_method:{th:"Method", zh:"法 (Method)"},
+  m_environment:{th:"Environment", zh:"环境 (Environment)"},
+  m_measurement:{th:"Measurement", zh:"测量 (Measurement)"},
+
+  sec4_title:{th:"Action Management", zh:"措施管理"},
+  btn_add_action:{th:"+ เพิ่ม Action", zh:"+ 添加措施"},
+
+  sec5_title:{th:"Lessons Learned", zh:"经验总结"},
+  lbl_lessons:{th:"สรุปบทเรียน สำหรับผู้ที่จะพัฒนาสินค้าใหม่/รับ spec ใหม่ที่เกี่ยวข้องควรรู้อะไร", zh:"经验总结 — 未来开发新产品/接受新规格的人员应该了解什么"},
+  lbl_lessons_ph:{th:"เช่น: หลีกเลี่ยง material X ร่วมกับ retort > 121°C โดยไม่เพิ่มการเฝ้าระวัง seal", zh:"例如：避免在retort温度>121°C时使用X材料而不加强封口监控"},
+
+  btn_cancel:{th:"ยกเลิก", zh:"取消"},
+  btn_back:{th:"← กลับ", zh:"← 返回"},
+  btn_delete_record:{th:"ลบบันทึกนี้", zh:"删除此记录"},
+  btn_save:{th:"บันทึก", zh:"保存"},
+  btn_saving:{th:"กำลังบันทึก...", zh:"保存中..."},
+
+  kb_intro:{th:"ใช้หน้านี้ตอนเริ่มต้น NPD หรือรับ spec ใหม่จากลูกค้า — ค้นหาว่าสินค้า/วัตถุดิบ/กระบวนการแบบนี้ เคยมีปัญหาอะไรมาก่อน ก่อนเริ่มผลิตจริง", zh:"在开始NPD或接受客户新规格时使用此页面 — 查询此类产品/原材料/工艺是否曾发生过问题，再开始正式生产"},
+
+  step_label:{th:"Step", zh:"步骤"},
+  step_hypothesis:{th:"Hypothesis", zh:"假设"},
+  step_method:{th:"Method", zh:"方法"},
+  step_result:{th:"Result", zh:"结果"},
+  step_conclusion:{th:"Conclusion", zh:"结论"},
+  step_analyst:{th:"ผู้วิเคราะห์", zh:"分析人员"},
+  step_date:{th:"วันที่", zh:"日期"},
+  step_source:{th:"แหล่งที่มา (5M1E)", zh:"来源分类（5M1E）"},
+  btn_remove:{th:"ลบ", zh:"删除"},
+  opt_dash:{th:"-", zh:"-"},
+
+  action_type:{th:"ประเภท", zh:"类型"},
+  action_desc:{th:"รายละเอียด", zh:"详情"},
+  action_owner:{th:"ผู้รับผิดชอบ", zh:"负责人"},
+  action_target:{th:"กำหนดเสร็จ", zh:"完成期限"},
+  action_status:{th:"สถานะ", zh:"状态"},
+  action_type_temp:{th:"Temporary", zh:"临时措施"},
+  action_type_corrective:{th:"Corrective", zh:"纠正措施"},
+  action_type_preventive:{th:"Preventive", zh:"预防措施"},
+  action_status_open:{th:"Open", zh:"未开始"},
+  action_status_inprogress:{th:"In Progress", zh:"进行中"},
+  action_status_completed:{th:"Completed", zh:"已完成"},
+
+  kb_match_prefix:{th:"ตรงกับ:", zh:"匹配项："},
+  kb_rootcause_label:{th:"Root cause:", zh:"根本原因："},
+  kb_lessons_label:{th:"Lesson learned:", zh:"经验总结："},
+  btn_open_full:{th:"เปิดบันทึกเต็ม", zh:"打开完整记录"},
+  kb_empty_title:{th:"ไม่พบเคสที่เกี่ยวข้อง", zh:"未找到相关案例"},
+  kb_empty_sub:{th:"ลองปรับคำค้นหา หรือถือว่ายังไม่มีประวัติปัญหาสำหรับ combination นี้", zh:"请尝试调整搜索条件，或可视为此组合尚无历史问题记录"},
+
+  sync_loading:{th:"กำลังโหลดจาก Supabase...", zh:"正在从 Supabase 加载..."},
+  sync_connected:{th:"เชื่อมกับ Supabase", zh:"已连接 Supabase"},
+  sync_load_failed:{th:"โหลดจาก Supabase ไม่สำเร็จ — ใช้ข้อมูล local ล่าสุดแทน", zh:"从 Supabase 加载失败 — 改用最新本地数据"},
+  sync_local_mode:{th:"โหมด local (ยังไม่เชื่อม Supabase)", zh:"本地模式（尚未连接 Supabase）"},
+  sync_saving:{th:"กำลังบันทึกไปยัง Supabase...", zh:"正在保存到 Supabase..."},
+  sync_save_failed:{th:"บันทึกขึ้น Supabase ไม่สำเร็จ (บันทึก local ไว้แล้ว) — ลองใหม่ภายหลัง", zh:"保存到 Supabase 失败（已保存本地）— 请稍后重试"},
+  sync_deleting:{th:"กำลังลบบน Supabase...", zh:"正在从 Supabase 删除..."},
+  sync_delete_failed:{th:"ลบบน Supabase ไม่สำเร็จ (ลบ local ไว้แล้ว)", zh:"从 Supabase 删除失败（本地已删除）"},
+
+  alert_min_fields:{th:"กรุณากรอกอย่างน้อย: สินค้า และลักษณะปัญหา", zh:"请至少填写：产品 和 问题描述"},
+  confirm_delete:{th:"ยืนยันการลบบันทึกนี้?", zh:"确定要删除此记录吗？"},
+  alert_photo_connection:{th:"อัปโหลดรูปได้เมื่อเชื่อมกับ Supabase แล้วเท่านั้น (กด ⚙ ตั้งค่า Supabase ด้านบนก่อน)", zh:"仅在连接 Supabase 后才能上传照片（请先点击上方 ⚙ Supabase 设置）"},
+  alert_max_photos:{th:"เพิ่มได้สูงสุด {n} รูปต่อ 1 ปัญหา", zh:"每个问题最多可添加 {n} 张照片"},
+  photo_status_skip_rest:{th:"ครบ {n} รูปแล้ว ไฟล์ที่เหลือถูกข้าม", zh:"已达到 {n} 张上限，其余文件已跳过"},
+  alert_file_too_large:{th:"มีขนาดเกิน {n}MB ข้ามไฟล์นี้", zh:"文件超过 {n}MB，已跳过"},
+  photo_status_uploading:{th:"กำลังบีบอัดและอัปโหลด...", zh:"正在压缩并上传..."},
+  alert_upload_failed:{th:"อัปโหลดไม่สำเร็จ: ", zh:"上传失败："}
+};
+
+function T(key, vars){
+  const entry = I18N[key];
+  let text = entry ? (entry[lang] || entry.th || key) : key;
+  if(vars){
+    Object.keys(vars).forEach(k=>{ text = text.replace('{' + k + '}', vars[k]); });
+  }
+  return text;
+}
+
+function applyI18n(){
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'th';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent = T(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    el.placeholder = T(el.dataset.i18nPh);
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.classList.toggle('active-lang', btn.dataset.lang === lang);
+  });
+  // refresh whichever view/dynamic content is currently visible
+  renderDashboard();
+  if(currentDraft){ renderSteps(); renderActions(); renderPhotos(); }
+  if(document.getElementById('view-kb').classList.contains('active')) renderKbResults();
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    lang = btn.dataset.lang;
+    localStorage.setItem(LANG_KEY, lang);
+    applyI18n();
+  });
+});
 
 function seedData(){
   return [
@@ -442,10 +784,14 @@ function seedData(){
   ];
 }
 
-const CONFIG_KEY = 'icoco_ta_script_url';
-const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTooN2imOquVZ5ghVDVdkcHXV4PbVmSBLIDPgzYs7KUxtB3wsrreYwqionJHa7iKmsnw/exec';
-const storedScriptUrl = localStorage.getItem(CONFIG_KEY);
-let scriptUrl = storedScriptUrl === '__disabled__' ? '' : (storedScriptUrl || DEFAULT_SCRIPT_URL);
+const URL_KEY = 'icoco_qa_supabase_url';
+const KEY_KEY = 'icoco_qa_supabase_key';
+const DEFAULT_SUPABASE_URL = 'https://faeylkvnzpqzkkxkvpba.supabase.co';
+const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhZXlsa3ZuenBxemtreGt2cGJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzNzUwMzYsImV4cCI6MjEwNDk1MTAzNn0.jxMKezE1J8YG6jzY_WUExiHeWsRO20fpKKA6V2A0L_4';
+const storedUrl = localStorage.getItem(URL_KEY);
+const storedKey = localStorage.getItem(KEY_KEY);
+let supabaseUrl = storedUrl === '__disabled__' ? '' : (storedUrl || DEFAULT_SUPABASE_URL);
+let supabaseKey = storedUrl === '__disabled__' ? '' : (storedKey || DEFAULT_SUPABASE_KEY);
 
 let records = [];
 try{
@@ -458,93 +804,162 @@ function cacheLocally(){
   try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); }catch(e){}
 }
 
-function setSyncStatus(text){
-  document.getElementById('syncStatus').textContent = text;
+function setSyncStatus(text, state){
+  const el = document.getElementById('syncStatus');
+  el.querySelector('.txt').textContent = text;
+  el.className = 'conn-badge conn-' + (state || 'unknown');
+}
+
+function isConnected(){ return !!(supabaseUrl && supabaseKey); }
+
+function supaHeaders(extra){
+  return Object.assign({
+    'apikey': supabaseKey,
+    'Authorization': 'Bearer ' + supabaseKey
+  }, extra || {});
 }
 
 async function initData(){
-  if(scriptUrl){
-    setSyncStatus('กำลังโหลดจาก Google Sheet...');
+  if(isConnected()){
+    setSyncStatus(T('sync_loading'), 'loading');
     try{
-      const res = await fetch(scriptUrl + '?action=list');
-      const data = await res.json();
-      if(data && data.ok){
-        records = data.records || [];
-        cacheLocally();
-        setSyncStatus('เชื่อมกับ Google Sheet');
-      }else{
-        throw new Error(data && data.error || 'load failed');
-      }
+      const res = await fetch(supabaseUrl + '/rest/v1/qa_records?select=id,data', { headers: supaHeaders() });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json();
+      records = rows.map(row => row.data);
+      cacheLocally();
+      setSyncStatus(T('sync_connected'), 'connected');
     }catch(err){
-      setSyncStatus('โหลดจาก Sheet ไม่สำเร็จ — ใช้ข้อมูล local ล่าสุดแทน');
+      setSyncStatus(T('sync_load_failed'), 'error');
       if(!records.length) records = seedData();
     }
   }else{
-    setSyncStatus('โหมด local (ยังไม่เชื่อม Google Sheet)');
+    setSyncStatus(T('sync_local_mode'), 'local');
     if(!records.length) records = seedData();
     cacheLocally();
   }
   renderDashboard();
 }
 
-/* upsert one record: to Sheet (if connected) and always to local cache */
+/* upsert one record: to Supabase (if connected) and always to local cache */
 async function persistRecord(record){
   const idx = records.findIndex(r=>r.id===record.id);
   if(idx>=0) records[idx] = record; else records.push(record);
   cacheLocally();
-  if(scriptUrl){
-    setSyncStatus('กำลังบันทึกไปยัง Google Sheet...');
+  if(isConnected()){
+    setSyncStatus(T('sync_saving'), 'loading');
     try{
-      await fetch(scriptUrl, {
+      const res = await fetch(supabaseUrl + '/rest/v1/qa_records', {
         method:'POST',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body: JSON.stringify({action:'upsert', id:record.id, data:record})
+        headers: supaHeaders({
+          'Content-Type':'application/json',
+          'Prefer':'resolution=merge-duplicates,return=minimal'
+        }),
+        body: JSON.stringify([{ id: record.id, data: record, updated_at: new Date().toISOString() }])
       });
-      setSyncStatus('เชื่อมกับ Google Sheet');
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      setSyncStatus(T('sync_connected'), 'connected');
     }catch(err){
-      setSyncStatus('บันทึกขึ้น Sheet ไม่สำเร็จ (บันทึก local ไว้แล้ว) — ลองใหม่ภายหลัง');
+      setSyncStatus(T('sync_save_failed'), 'error');
     }
   }
 }
 
 async function deleteRecordRemote(id){
+  const rec = records.find(r=>r.id===id);
   records = records.filter(r=>r.id!==id);
   cacheLocally();
-  if(scriptUrl){
-    setSyncStatus('กำลังลบบน Google Sheet...');
+  if(isConnected()){
+    setSyncStatus(T('sync_deleting'), 'loading');
     try{
-      await fetch(scriptUrl, {
-        method:'POST',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body: JSON.stringify({action:'delete', id})
+      await fetch(supabaseUrl + '/rest/v1/qa_records?id=eq.' + encodeURIComponent(id), {
+        method:'DELETE',
+        headers: supaHeaders()
       });
-      setSyncStatus('เชื่อมกับ Google Sheet');
+      // best-effort cleanup of any uploaded photos for this record
+      if(rec && rec.photos && rec.photos.length){
+        for(const p of rec.photos){
+          try{
+            await fetch(supabaseUrl + '/storage/v1/object/qa-photos/' + p.path, {
+              method:'DELETE', headers: supaHeaders()
+            });
+          }catch(e){}
+        }
+      }
+      setSyncStatus(T('sync_connected'), 'connected');
     }catch(err){
-      setSyncStatus('ลบบน Sheet ไม่สำเร็จ (ลบ local ไว้แล้ว)');
+      setSyncStatus(T('sync_delete_failed'), 'error');
     }
   }
+}
+
+/* ---------- photo upload (Supabase Storage) ---------- */
+const MAX_PHOTOS = 5;
+const MAX_ORIGINAL_MB = 20;          // reject absurdly large source files outright
+const MAX_DIMENSION = 1600;          // longest side after resize, px
+const JPEG_QUALITY = 0.75;
+
+function compressImage(file){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = ()=>{ img.src = reader.result; };
+    reader.onerror = reject;
+    img.onload = ()=>{
+      let { width, height } = img;
+      if(width > MAX_DIMENSION || height > MAX_DIMENSION){
+        const scale = MAX_DIMENSION / Math.max(width, height);
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      canvas.toBlob(blob=>{
+        if(blob) resolve(blob); else reject(new Error('compress failed'));
+      }, 'image/jpeg', JPEG_QUALITY);
+    };
+    img.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadPhoto(recordId, blob){
+  const filename = recordId + '/' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.jpg';
+  const res = await fetch(supabaseUrl + '/storage/v1/object/qa-photos/' + filename, {
+    method:'POST',
+    headers: supaHeaders({ 'Content-Type':'image/jpeg', 'x-upsert':'true' }),
+    body: blob
+  });
+  if(!res.ok) throw new Error('upload failed: HTTP ' + res.status);
+  const publicUrl = supabaseUrl + '/storage/v1/object/public/qa-photos/' + filename;
+  return { path: filename, url: publicUrl };
 }
 
 /* ---------- settings panel ---------- */
 document.getElementById('btnSettings').addEventListener('click', ()=>{
   const panel = document.getElementById('settingsPanel');
   panel.style.display = panel.style.display==='none' ? 'block' : 'none';
-  document.getElementById('scriptUrlInput').value = scriptUrl;
+  document.getElementById('supabaseUrlInput').value = supabaseUrl;
+  document.getElementById('supabaseKeyInput').value = supabaseKey;
 });
 document.getElementById('btnSaveScriptUrl').addEventListener('click', async ()=>{
-  const v = document.getElementById('scriptUrlInput').value.trim();
-  scriptUrl = v;
-  localStorage.setItem(CONFIG_KEY, v);
+  supabaseUrl = document.getElementById('supabaseUrlInput').value.trim().replace(/\/+$/,'');
+  supabaseKey = document.getElementById('supabaseKeyInput').value.trim();
+  localStorage.setItem(URL_KEY, supabaseUrl);
+  localStorage.setItem(KEY_KEY, supabaseKey);
   document.getElementById('settingsPanel').style.display='none';
   await initData();
 });
 document.getElementById('btnDisconnectSheet').addEventListener('click', ()=>{
-  scriptUrl='';
-  localStorage.setItem(CONFIG_KEY, '__disabled__');
+  supabaseUrl=''; supabaseKey='';
+  localStorage.setItem(URL_KEY, '__disabled__');
+  localStorage.removeItem(KEY_KEY);
   document.getElementById('settingsPanel').style.display='none';
-  setSyncStatus('โหมด local (ยังไม่เชื่อม Google Sheet)');
+  setSyncStatus(T('sync_local_mode'), 'local');
   renderDashboard();
 });
+
 
 /* ---------- navigation ---------- */
 const views = {dashboard:'view-dashboard', workspace:'view-workspace', kb:'view-kb'};
@@ -564,14 +979,25 @@ function showView(name){
 
 /* ---------- dashboard ---------- */
 let activeStatusFilter = 'all';
-const statusLabels = {all:'ทั้งหมด', open:'Open', analysis:'In Analysis', closed:'Closed'};
+function statusLabel(key){
+  if(key==='all') return T('filter_all');
+  return T('status_' + key);
+}
+function severityLabel(v){
+  const k = (v||'').toLowerCase();
+  return I18N['sev_'+k] ? T('sev_'+k) : (v||'-');
+}
+function m5Label(v){
+  const k = (v||'').toLowerCase();
+  return I18N['m_'+k] ? T('m_'+k) : v;
+}
 function renderStatusFilters(){
   const box = document.getElementById('statusFilters');
   box.innerHTML='';
-  Object.keys(statusLabels).forEach(key=>{
+  ['all','open','analysis','closed'].forEach(key=>{
     const chip = document.createElement('div');
     chip.className = 'chip' + (activeStatusFilter===key ? ' on':'');
-    chip.textContent = statusLabels[key];
+    chip.textContent = statusLabel(key);
     chip.style.cursor='pointer';
     chip.addEventListener('click', ()=>{ activeStatusFilter=key; renderDashboard(); });
     box.appendChild(chip);
@@ -579,6 +1005,10 @@ function renderStatusFilters(){
 }
 function renderDashboard(){
   renderStatusFilters();
+  document.getElementById('statTotal').textContent = records.length;
+  document.getElementById('statOpen').textContent = records.filter(r=>r.status==='open').length;
+  document.getElementById('statAnalysis').textContent = records.filter(r=>r.status==='analysis').length;
+  document.getElementById('statClosed').textContent = records.filter(r=>r.status==='closed').length;
   const q = (document.getElementById('dashSearch').value || '').toLowerCase();
   const tbody = document.getElementById('dashTableBody');
   tbody.innerHTML='';
@@ -598,9 +1028,9 @@ function renderDashboard(){
       <td class="mono">${r.id}</td>
       <td>${escapeHtml(r.product||'-')}</td>
       <td>${escapeHtml(r.symptom||'-')}</td>
-      <td>${(r.rc5m||[]).map(c=>`<span class="chip">${c}</span>`).join(' ')||'-'}</td>
-      <td><span class="status-pill status-${r.status}">${statusLabels[r.status]}</span></td>
-      <td>${r.severity||'-'}</td>
+      <td>${(r.rc5m||[]).map(c=>`<span class="chip">${escapeHtml(m5Label(c))}</span>`).join(' ')||'-'}</td>
+      <td><span class="status-pill status-${r.status}">${statusLabel(r.status)}</span></td>
+      <td>${severityLabel(r.severity)}</td>
       <td class="mono">${r.dateOpened||'-'}</td>
     `;
     tr.addEventListener('click', ()=>{ openRecord(r.id); showView('workspace'); });
@@ -621,6 +1051,7 @@ function blankRecord(){
     dateOpened: new Date().toISOString().slice(0,10),
     tags:{productType:'', material:'', process:'', defectType:''},
     investigation:{productionSite:'', qd:'', td:'', priorNearbyStatus:'', priorNearbyDetail:'', priorSameSiteStatus:'', priorSameSiteDetail:'', inboundDocUsed:'', inboundDocRef:'', layoutDocUsed:'', layoutDocRef:''},
+    photos:[],
     steps:[], rootCause:'', rc5m:[],
     actions:[], lessons:''
   };
@@ -646,16 +1077,17 @@ function openRecord(id){
   if(!currentDraft.investigation){
     currentDraft.investigation = {productionSite:'', qd:'', td:'', priorNearbyStatus:'', priorNearbyDetail:'', priorSameSiteStatus:'', priorSameSiteDetail:'', inboundDocUsed:'', inboundDocRef:'', layoutDocUsed:'', layoutDocRef:''};
   }
+  if(!currentDraft.photos) currentDraft.photos = [];
   isNew = false;
   renderWorkspace();
 }
 
 function renderWorkspace(){
   const d = currentDraft;
-  document.getElementById('wsIdLabel').textContent = isNew ? 'รหัสที่จะบันทึก: ' + d.id : 'รหัส: ' + d.id;
-  document.getElementById('wsTitle').textContent = d.symptom || 'บันทึกการวิเคราะห์ทางเทคนิค';
+  document.getElementById('wsIdLabel').textContent = (isNew ? T('ws_id_prefix_new') : T('ws_id_prefix_existing')) + d.id;
+  document.getElementById('wsTitle').textContent = d.symptom || T('ws_default_title');
   document.getElementById('wsStatusPill').className = 'status-pill status-' + d.status;
-  document.getElementById('wsStatusPill').textContent = statusLabels[d.status];
+  document.getElementById('wsStatusPill').textContent = statusLabel(d.status);
   document.getElementById('btnDeleteWs').style.display = isNew ? 'none' : 'inline-block';
 
   document.getElementById('fProduct').value = d.product;
@@ -690,6 +1122,7 @@ function renderWorkspace(){
 
   renderSteps();
   renderActions();
+  renderPhotos();
 }
 
 function readFormIntoDraft(){
@@ -731,30 +1164,30 @@ function renderSteps(){
     div.className='step-card';
     div.innerHTML = `
       <div class="step-head">
-        <span class="step-label">Step ${idx+1}</span>
-        <button class="btn ghost small" data-remove-step="${idx}">ลบ</button>
+        <span class="step-label">${T('step_label')} ${idx+1}</span>
+        <button class="btn ghost small" data-remove-step="${idx}">${T('btn_remove')}</button>
       </div>
       <div class="row">
-        <div class="field"><label>Hypothesis</label><input data-step="${idx}" data-field="hypothesis" value="${attr(s.hypothesis)}"></div>
-        <div class="field"><label>Method</label><input data-step="${idx}" data-field="method" value="${attr(s.method)}"></div>
+        <div class="field"><label>${T('step_hypothesis')}</label><input data-step="${idx}" data-field="hypothesis" value="${attr(s.hypothesis)}"></div>
+        <div class="field"><label>${T('step_method')}</label><input data-step="${idx}" data-field="method" value="${attr(s.method)}"></div>
       </div>
       <div class="row" style="margin-top:8px;">
-        <div class="field"><label>Result</label><input data-step="${idx}" data-field="result" value="${attr(s.result)}"></div>
-        <div class="field"><label>Conclusion</label><input data-step="${idx}" data-field="conclusion" value="${attr(s.conclusion)}"></div>
+        <div class="field"><label>${T('step_result')}</label><input data-step="${idx}" data-field="result" value="${attr(s.result)}"></div>
+        <div class="field"><label>${T('step_conclusion')}</label><input data-step="${idx}" data-field="conclusion" value="${attr(s.conclusion)}"></div>
       </div>
       <div class="row" style="margin-top:8px;">
-        <div class="field" style="max-width:180px;"><label>ผู้วิเคราะห์</label><input data-step="${idx}" data-field="analyst" value="${attr(s.analyst)}"></div>
-        <div class="field" style="max-width:150px;"><label>วันที่</label><input type="date" data-step="${idx}" data-field="date" value="${attr(s.date)}"></div>
+        <div class="field" style="max-width:180px;"><label>${T('step_analyst')}</label><input data-step="${idx}" data-field="analyst" value="${attr(s.analyst)}"></div>
+        <div class="field" style="max-width:150px;"><label>${T('step_date')}</label><input type="date" data-step="${idx}" data-field="date" value="${attr(s.date)}"></div>
         <div class="field" style="max-width:200px;">
-          <label>แหล่งที่มา (5M1E)</label>
+          <label>${T('step_source')}</label>
           <select data-step="${idx}" data-field="category">
-            <option value="">-</option>
-            <option ${s.category==='Man'?'selected':''}>Man</option>
-            <option ${s.category==='Machine'?'selected':''}>Machine</option>
-            <option ${s.category==='Material'?'selected':''}>Material</option>
-            <option ${s.category==='Method'?'selected':''}>Method</option>
-            <option ${s.category==='Environment'?'selected':''}>Environment</option>
-            <option ${s.category==='Measurement'?'selected':''}>Measurement</option>
+            <option value="">${T('opt_dash')}</option>
+            <option value="Man" ${s.category==='Man'?'selected':''}>${T('m_man')}</option>
+            <option value="Machine" ${s.category==='Machine'?'selected':''}>${T('m_machine')}</option>
+            <option value="Material" ${s.category==='Material'?'selected':''}>${T('m_material')}</option>
+            <option value="Method" ${s.category==='Method'?'selected':''}>${T('m_method')}</option>
+            <option value="Environment" ${s.category==='Environment'?'selected':''}>${T('m_environment')}</option>
+            <option value="Measurement" ${s.category==='Measurement'?'selected':''}>${T('m_measurement')}</option>
           </select>
         </div>
       </div>
@@ -787,21 +1220,21 @@ function renderActions(){
     const div = document.createElement('div');
     div.className='action-row';
     div.innerHTML = `
-      <div class="field"><label>ประเภท</label>
+      <div class="field"><label>${T('action_type')}</label>
         <select data-action="${idx}" data-field="type">
-          <option ${a.type==='Temporary'?'selected':''}>Temporary</option>
-          <option ${a.type==='Corrective'?'selected':''}>Corrective</option>
-          <option ${a.type==='Preventive'?'selected':''}>Preventive</option>
+          <option value="Temporary" ${a.type==='Temporary'?'selected':''}>${T('action_type_temp')}</option>
+          <option value="Corrective" ${a.type==='Corrective'?'selected':''}>${T('action_type_corrective')}</option>
+          <option value="Preventive" ${a.type==='Preventive'?'selected':''}>${T('action_type_preventive')}</option>
         </select>
       </div>
-      <div class="field"><label>รายละเอียด</label><input data-action="${idx}" data-field="desc" value="${attr(a.desc)}"></div>
-      <div class="field"><label>ผู้รับผิดชอบ</label><input data-action="${idx}" data-field="owner" value="${attr(a.owner)}"></div>
-      <div class="field"><label>กำหนดเสร็จ</label><input type="date" data-action="${idx}" data-field="target" value="${attr(a.target)}"></div>
-      <div class="field"><label>สถานะ</label>
+      <div class="field"><label>${T('action_desc')}</label><input data-action="${idx}" data-field="desc" value="${attr(a.desc)}"></div>
+      <div class="field"><label>${T('action_owner')}</label><input data-action="${idx}" data-field="owner" value="${attr(a.owner)}"></div>
+      <div class="field"><label>${T('action_target')}</label><input type="date" data-action="${idx}" data-field="target" value="${attr(a.target)}"></div>
+      <div class="field"><label>${T('action_status')}</label>
         <select data-action="${idx}" data-field="status">
-          <option ${a.status==='Open'?'selected':''}>Open</option>
-          <option ${a.status==='In Progress'?'selected':''}>In Progress</option>
-          <option ${a.status==='Completed'?'selected':''}>Completed</option>
+          <option value="Open" ${a.status==='Open'?'selected':''}>${T('action_status_open')}</option>
+          <option value="In Progress" ${a.status==='In Progress'?'selected':''}>${T('action_status_inprogress')}</option>
+          <option value="Completed" ${a.status==='Completed'?'selected':''}>${T('action_status_completed')}</option>
         </select>
       </div>
       <button class="btn ghost small" data-remove-action="${idx}" style="align-self:end;">✕</button>
@@ -830,23 +1263,93 @@ document.getElementById('btnAddAction').addEventListener('click', ()=>{
   renderActions();
 });
 
+/* --- photos --- */
+function renderPhotos(){
+  const grid = document.getElementById('photoGrid');
+  grid.innerHTML = '';
+  currentDraft.photos.forEach((p, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'photo-thumb';
+    div.innerHTML = `<img src="${attr(p.url)}" alt="photo"><button class="rm" data-remove-photo="${idx}">✕</button>`;
+    grid.appendChild(div);
+  });
+  grid.querySelectorAll('[data-remove-photo]').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const idx = +btn.dataset.removePhoto;
+      const p = currentDraft.photos[idx];
+      currentDraft.photos.splice(idx, 1);
+      renderPhotos();
+      if(isConnected() && p && p.path){
+        try{
+          await fetch(supabaseUrl + '/storage/v1/object/qa-photos/' + p.path, { method:'DELETE', headers: supaHeaders() });
+        }catch(e){}
+      }
+    });
+  });
+  const remaining = MAX_PHOTOS - currentDraft.photos.length;
+  document.getElementById('btnAddPhoto').style.display = remaining > 0 ? 'inline-block' : 'none';
+}
+
+document.getElementById('btnAddPhoto').addEventListener('click', ()=>{
+  if(!isConnected()){
+    alert(T('alert_photo_connection'));
+    return;
+  }
+  document.getElementById('photoFileInput').click();
+});
+
+document.getElementById('photoFileInput').addEventListener('change', async (e)=>{
+  const files = Array.from(e.target.files || []);
+  e.target.value = '';
+  const statusEl = document.getElementById('photoStatus');
+  let remaining = MAX_PHOTOS - currentDraft.photos.length;
+  if(remaining <= 0){
+    alert(T('alert_max_photos', {n: MAX_PHOTOS}));
+    return;
+  }
+  for(const file of files){
+    if(remaining <= 0){
+      statusEl.textContent = T('photo_status_skip_rest', {n: MAX_PHOTOS});
+      break;
+    }
+    if(!file.type.startsWith('image/')){ continue; }
+    if(file.size > MAX_ORIGINAL_MB * 1024 * 1024){
+      alert(file.name + ' ' + T('alert_file_too_large', {n: MAX_ORIGINAL_MB}));
+      continue;
+    }
+    statusEl.textContent = T('photo_status_uploading') + ' (' + file.name + ')';
+    try{
+      const blob = await compressImage(file);
+      const uploaded = await uploadPhoto(currentDraft.id, blob);
+      currentDraft.photos.push(uploaded);
+      renderPhotos();
+      remaining--;
+    }catch(err){
+      alert(T('alert_upload_failed') + file.name + ': ' + err.message);
+    }
+  }
+  statusEl.textContent = '';
+});
+
+
 /* --- save / cancel / delete --- */
 document.getElementById('btnSaveWs').addEventListener('click', async ()=>{
   readFormIntoDraft();
   if(!currentDraft.product || !currentDraft.symptom){
-    alert('กรุณากรอกอย่างน้อย: สินค้า และลักษณะปัญหา');
+    alert(T('alert_min_fields'));
     return;
   }
   const btn = document.getElementById('btnSaveWs');
-  btn.disabled = true; btn.textContent = 'กำลังบันทึก...';
+  btn.disabled = true; btn.textContent = T('btn_saving');
   await persistRecord(currentDraft);
-  btn.disabled = false; btn.textContent = 'บันทึก';
+  btn.disabled = false; btn.textContent = T('btn_save');
   isNew = false;
   showView('dashboard');
 });
 document.getElementById('btnCancelWs').addEventListener('click', ()=>{ showView('dashboard'); });
+document.getElementById('btnBackWs').addEventListener('click', ()=>{ showView('dashboard'); });
 document.getElementById('btnDeleteWs').addEventListener('click', async ()=>{
-  if(!confirm('ยืนยันการลบบันทึกนี้?')) return;
+  if(!confirm(T('confirm_delete'))) return;
   await deleteRecordRemote(currentDraft.id);
   showView('dashboard');
 });
@@ -868,16 +1371,16 @@ function renderKbResults(){
 
   const scored = records.map(r=>{
     let matches = [];
-    if(q.productType && r.tags.productType.toLowerCase().includes(q.productType)) matches.push('ประเภทสินค้า');
-    if(q.material && r.tags.material.toLowerCase().includes(q.material)) matches.push('วัตถุดิบ');
-    if(q.process && r.tags.process.toLowerCase().includes(q.process)) matches.push('กระบวนการ');
-    if(q.defectType && r.tags.defectType.toLowerCase().includes(q.defectType)) matches.push('ประเภทข้อบกพร่อง');
+    if(q.productType && r.tags.productType.toLowerCase().includes(q.productType)) matches.push(T('lbl_product_type'));
+    if(q.material && r.tags.material.toLowerCase().includes(q.material)) matches.push(T('lbl_material'));
+    if(q.process && r.tags.process.toLowerCase().includes(q.process)) matches.push(T('lbl_process'));
+    if(q.defectType && r.tags.defectType.toLowerCase().includes(q.defectType)) matches.push(T('lbl_defect_type'));
     return {r, matches};
   }).filter(x=> anyQuery ? x.matches.length>0 : true)
     .sort((a,b)=>b.matches.length - a.matches.length);
 
   if(!scored.length){
-    box.innerHTML = `<div class="empty-state"><h3>ไม่พบเคสที่เกี่ยวข้อง</h3><div>ลองปรับคำค้นหา หรือถือว่ายังไม่มีประวัติปัญหาสำหรับ combination นี้</div></div>`;
+    box.innerHTML = `<div class="empty-state"><h3>${T('kb_empty_title')}</h3><div>${T('kb_empty_sub')}</div></div>`;
     return;
   }
 
@@ -887,16 +1390,16 @@ function renderKbResults(){
     div.innerHTML = `
       <h4>${escapeHtml(r.symptom)}</h4>
       <div class="meta mono">${r.id} · ${escapeHtml(r.product)} · ${escapeHtml(r.dateOpened||'')}</div>
-      ${matches.length ? `<div class="kb-match">ตรงกับ: ${matches.join(', ')}</div>` : ''}
+      ${matches.length ? `<div class="kb-match">${T('kb_match_prefix')} ${matches.join(', ')}</div>` : ''}
       <div class="tag-summary">
         ${r.tags.productType ? `<span class="chip">${escapeHtml(r.tags.productType)}</span>`:''}
         ${r.tags.material ? `<span class="chip">${escapeHtml(r.tags.material)}</span>`:''}
         ${r.tags.process ? `<span class="chip">${escapeHtml(r.tags.process)}</span>`:''}
         ${r.tags.defectType ? `<span class="chip">${escapeHtml(r.tags.defectType)}</span>`:''}
       </div>
-      <p style="margin:10px 0 4px 0;"><strong>Root cause:</strong> ${escapeHtml(r.rootCause||'-')}</p>
-      <p style="margin:4px 0 8px 0;"><strong>Lesson learned:</strong> ${escapeHtml(r.lessons||'-')}</p>
-      <button class="btn secondary small" data-open="${r.id}">เปิดบันทึกเต็ม</button>
+      <p style="margin:10px 0 4px 0;"><strong>${T('kb_rootcause_label')}</strong> ${escapeHtml(r.rootCause||'-')}</p>
+      <p style="margin:4px 0 8px 0;"><strong>${T('kb_lessons_label')}</strong> ${escapeHtml(r.lessons||'-')}</p>
+      <button class="btn secondary small" data-open="${r.id}">${T('btn_open_full')}</button>
     `;
     box.appendChild(div);
   });
@@ -910,7 +1413,7 @@ function escapeHtml(s){
   return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 function attr(s){ return escapeHtml(s); }
-
+applyI18n();
 initData();
 </script>
 </body>
