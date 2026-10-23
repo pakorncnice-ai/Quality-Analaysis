@@ -64,7 +64,9 @@
   .brand-title{font-weight:600; font-size:15.5px; letter-spacing:-0.01em; line-height:1.1;}
   .brand-subtitle{font-size:11.5px; color:var(--ink-soft); font-weight:500; margin-top:3px;}
   .app-title-row{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 20px;}
-  nav.tabs{display:flex; gap:6px; margin-top:14px; padding-bottom:12px; flex-wrap:wrap;}
+  nav.tabs{display:flex; gap:6px; margin-top:14px; padding-bottom:12px; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  nav.tabs button{white-space:nowrap; flex-shrink:0;}
   nav.tabs button{
     font-family:'Inter','Noto Sans Thai','Noto Sans SC', sans-serif;
     font-size:13px;
@@ -154,7 +156,10 @@
   /* ---- Dashboard ---- */
   .stats-bar{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px;}
   @media(max-width:700px){ .stats-bar{grid-template-columns:1fr 1fr;} }
-  .stat-card{display:flex; align-items:center; justify-content:space-between; padding:16px 18px;}
+  .stat-card{display:flex; align-items:center; justify-content:space-between; padding:16px 18px; cursor:pointer; user-select:none; transition:box-shadow .15s, border-color .15s, transform .1s;}
+  .stat-card:hover{box-shadow:var(--shadow-hover);}
+  .stat-card:active{transform:scale(0.98);}
+  .stat-card.active{border-color:var(--ink); box-shadow:0 0 0 2px var(--ink);}
   .stat-label{font-size:11px; font-weight:600; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em;}
   .stat-value{font-size:24px; font-weight:700; margin-top:4px; letter-spacing:-0.01em;}
   .stat-icon{width:40px; height:40px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;}
@@ -238,6 +243,12 @@
   .footer-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:8px;}
   .hint{font-size:12px; color:var(--ink-soft);}
 
+  .translate-note{
+    font-size:12px; font-style:italic; color:var(--ink-soft);
+    margin-top:5px; padding:6px 10px; background:#F9FAFB; border-radius:8px;
+    border-left:2px solid var(--line-strong); display:none; line-height:1.5;
+  }
+
   .photo-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:10px; margin-top:8px;}
   .photo-thumb{
     position:relative; border-radius:12px; overflow:hidden; aspect-ratio:1;
@@ -277,6 +288,71 @@
   .manual-icon{
     width:38px; height:38px; border-radius:11px; background:var(--line);
     display:flex; align-items:center; justify-content:center; font-size:17px;
+  }
+
+  /* ================= Mobile ================= */
+  @media(max-width:680px){
+    header.app{padding:12px 14px 0 14px;}
+    main{padding:16px 14px 70px 14px;}
+    .brand-title{font-size:14px;}
+    .brand-subtitle{display:none;}
+    .brand-logo{width:32px; height:32px; font-size:11px; border-radius:9px;}
+    .app-title-row{gap:8px 10px;}
+    .conn-badge .txt{display:none;}
+    .conn-badge{padding:7px; }
+    .conn-badge .dot{width:9px; height:9px;}
+    nav.tabs{margin-top:10px; padding-bottom:10px; gap:4px;}
+    nav.tabs button{padding:7px 12px; font-size:12.5px;}
+
+    .card{padding:14px 16px; border-radius:14px;}
+    .section-title h2{font-size:14.5px;}
+
+    .stats-bar{grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px;}
+    .stat-card{padding:12px 14px;}
+    .stat-value{font-size:19px;}
+    .stat-icon{width:32px; height:32px; font-size:13px; border-radius:9px;}
+    .stat-label{font-size:10px;}
+
+    .dash-toolbar{flex-direction:column; align-items:stretch;}
+    .search-wrap{max-width:none;}
+    .dash-toolbar .btn{width:100%;}
+
+    /* dashboard table -> stacked cards on mobile */
+    table.dash thead{display:none;}
+    table.dash, table.dash tbody, table.dash tr, table.dash td{display:block; width:100%;}
+    table.dash tr.rec-row{
+      padding:12px 14px; border-bottom:1px solid var(--line-strong);
+      display:grid; grid-template-columns:1fr auto; column-gap:10px; row-gap:4px;
+    }
+    table.dash td{padding:0; border:none; font-size:13px;}
+    table.dash td:nth-child(1){grid-column:1; font-size:12px; order:1;}
+    table.dash td:nth-child(2){grid-column:1; font-weight:600; font-size:14px; order:2;}
+    table.dash td:nth-child(3){grid-column:1 / -1; color:var(--ink-soft); order:4;}
+    table.dash td:nth-child(4){grid-column:1 / -1; order:5;}
+    table.dash td:nth-child(5){grid-column:2; grid-row:1; justify-self:end; order:1;}
+    table.dash td:nth-child(6){display:none;}
+    table.dash td:nth-child(7){grid-column:1 / -1; order:6; font-size:11px; color:var(--ink-soft);}
+    table.dash td[data-label]::before{
+      content: attr(data-label); display:block; font-size:10px; font-weight:600;
+      color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em; margin-bottom:1px;
+    }
+    table.dash td:nth-child(1)::before, table.dash td:nth-child(2)::before, table.dash td:nth-child(5)::before{content:none;}
+
+    .row{gap:10px;}
+    .field{min-width:0; flex:1 1 100%;}
+    .action-row{grid-template-columns:1fr 1fr; gap:8px;}
+    .action-row .btn.ghost.small{grid-column:1 / -1; justify-self:end; width:auto;}
+
+    .kb-filters{grid-template-columns:1fr;}
+    .manual-grid{grid-template-columns:1fr;}
+
+    .ws-id-row{gap:6px;}
+    .ws-id-badge{font-size:11px; padding:4px 10px;}
+
+    .footer-actions{flex-direction:column-reverse; gap:8px;}
+    .footer-actions .btn{width:100%;}
+
+    .photo-grid{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));}
   }
 </style>
 </head>
@@ -330,19 +406,19 @@
   <!-- ============ DASHBOARD ============ -->
   <section id="view-dashboard" class="view active">
     <div class="stats-bar">
-      <div class="card stat-card">
+      <div class="card stat-card" id="statCardAll" data-filter="all" role="button" tabindex="0">
         <div><div class="stat-label" data-i18n="filter_all"></div><div class="stat-value" id="statTotal">0</div></div>
         <div class="stat-icon total">📊</div>
       </div>
-      <div class="card stat-card">
+      <div class="card stat-card" id="statCardOpen" data-filter="open" role="button" tabindex="0">
         <div><div class="stat-label" data-i18n="status_open"></div><div class="stat-value" id="statOpen" style="color:var(--brick);">0</div></div>
         <div class="stat-icon open">🔴</div>
       </div>
-      <div class="card stat-card">
+      <div class="card stat-card" id="statCardAnalysis" data-filter="analysis" role="button" tabindex="0">
         <div><div class="stat-label" data-i18n="status_analysis"></div><div class="stat-value" id="statAnalysis" style="color:var(--ochre);">0</div></div>
         <div class="stat-icon analysis">🟡</div>
       </div>
-      <div class="card stat-card">
+      <div class="card stat-card" id="statCardClosed" data-filter="closed" role="button" tabindex="0">
         <div><div class="stat-label" data-i18n="status_closed"></div><div class="stat-value" id="statClosed" style="color:var(--emerald);">0</div></div>
         <div class="stat-icon closed">✅</div>
       </div>
@@ -355,7 +431,7 @@
       <button class="btn" id="btnNewRecord" data-i18n="btn_new_record"></button>
     </div>
     <div class="filter-chips" id="statusFilters"></div>
-    <div class="card" style="padding:0; overflow:hidden;">
+    <div class="card" id="dashTableCard" style="padding:0; overflow:hidden;">
       <table class="dash">
         <thead>
           <tr>
@@ -399,7 +475,7 @@
           <div class="field"><label data-i18n="lbl_production_site"></label><input id="fProductionSite" placeholder="เช่น Plant 1 / Plant 2"></div>
         </div>
         <div class="row" style="margin-top:12px;">
-          <div class="field"><label data-i18n="lbl_symptom"></label><input id="fSymptom" placeholder="เช่น Seal leakage ที่ side seal"></div>
+          <div class="field"><label data-i18n="lbl_symptom"></label><input id="fSymptom" placeholder="เช่น Seal leakage ที่ side seal"><div class="translate-note" id="fSymptomTr"></div></div>
           <div class="field" style="max-width:160px;">
             <label data-i18n="lbl_severity"></label>
             <select id="fSeverity">
@@ -509,7 +585,7 @@
     <div class="section">
       <div class="section-title"><div class="section-num">3</div><h2 data-i18n="sec3_title"></h2></div>
       <div class="card">
-        <div class="field"><label data-i18n="lbl_rootcause"></label><textarea id="fRootCause" data-i18n-ph="lbl_rootcause_ph"></textarea></div>
+        <div class="field"><label data-i18n="lbl_rootcause"></label><textarea id="fRootCause" data-i18n-ph="lbl_rootcause_ph"></textarea><div class="translate-note" id="fRootCauseTr"></div></div>
         <div style="margin-top:10px;">
           <label style="font-size:12px; color:var(--ink-soft); font-weight:500;" data-i18n="lbl_5m1e"></label>
           <div class="rc5m" id="rc5mBox">
@@ -537,7 +613,7 @@
     <div class="section">
       <div class="section-title"><div class="section-num">5</div><h2 data-i18n="sec5_title"></h2></div>
       <div class="card">
-        <div class="field"><label data-i18n="lbl_lessons"></label><textarea id="fLessons" data-i18n-ph="lbl_lessons_ph"></textarea></div>
+        <div class="field"><label data-i18n="lbl_lessons"></label><textarea id="fLessons" data-i18n-ph="lbl_lessons_ph"></textarea><div class="translate-note" id="fLessonsTr"></div></div>
       </div>
     </div>
 
@@ -805,7 +881,12 @@ const I18N = {
   photo_status_skip_rest:{th:"ครบ {n} รูปแล้ว ไฟล์ที่เหลือถูกข้าม", zh:"已达到 {n} 张上限，其余文件已跳过"},
   alert_file_too_large:{th:"มีขนาดเกิน {n}MB ข้ามไฟล์นี้", zh:"文件超过 {n}MB，已跳过"},
   photo_status_uploading:{th:"กำลังบีบอัดและอัปโหลด...", zh:"正在压缩并上传..."},
-  alert_upload_failed:{th:"อัปโหลดไม่สำเร็จ: ", zh:"上传失败："}
+  alert_upload_failed:{th:"อัปโหลดไม่สำเร็จ: ", zh:"上传失败："},
+  translating_note:{th:"🌐 กำลังแปล...", zh:"🌐 翻译中..."},
+  translate_failed_note:{th:"🌐 แปลอัตโนมัติไม่สำเร็จ (ตรวจสอบอินเทอร์เน็ต)", zh:"🌐 自动翻译失败（请检查网络连接）"},
+  btn_share:{th:"แชร์", zh:"分享"},
+  share_copied:{th:"คัดลอกข้อมูลแล้ว วางเพื่อส่งต่อได้เลย", zh:"已复制信息，可直接粘贴分享"},
+  share_title_prefix:{th:"บันทึกคุณภาพ", zh:"质量分析记录"}
 };
 
 function T(key, vars){
@@ -907,6 +988,54 @@ function setSyncStatus(text, state){
 }
 
 function isConnected(){ return !!(supabaseUrl && supabaseKey); }
+
+/* ---------- auto translate (Thai <-> Chinese) ---------- */
+const translateCache = new Map(); // "srcLang|tgtLang|text" -> translated string
+
+function detectScript(text){
+  if(/[\u0E00-\u0E7F]/.test(text)) return 'th';
+  if(/[\u4E00-\u9FFF]/.test(text)) return 'zh-CN';
+  return null;
+}
+
+async function translateText(text, sourceLang, targetLang){
+  const key = sourceLang + '|' + targetLang + '|' + text;
+  if(translateCache.has(key)) return translateCache.get(key);
+  try{
+    const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetLang;
+    const res = await fetch(url);
+    const data = await res.json();
+    const translated = data && data.responseData && data.responseData.translatedText;
+    if(translated){ translateCache.set(key, translated); return translated; }
+  }catch(e){ /* offline or blocked — fail silently, handled by caller */ }
+  return null;
+}
+
+/* Wires an input/textarea to an output element that always shows a live
+   translation: Thai input -> Chinese note, Chinese input -> Thai note.
+   Runs immediately for existing content, and again whenever the field
+   loses focus after being edited. */
+function wireAutoTranslate(inputEl, outEl){
+  const run = async ()=>{
+    const text = inputEl.value.trim();
+    const src = detectScript(text);
+    if(!text || !src){ outEl.style.display='none'; outEl.textContent=''; return; }
+    const tgt = src === 'th' ? 'zh-CN' : 'th';
+    outEl.style.display='block';
+    outEl.textContent = T('translating_note');
+    const translated = await translateText(text, src, tgt);
+    // guard against the field having changed while we were waiting
+    if(inputEl.value.trim() !== text) return;
+    if(translated){
+      const langTag = tgt === 'zh-CN' ? '中文' : 'ไทย';
+      outEl.textContent = '🌐 ' + langTag + ': ' + translated;
+    }else{
+      outEl.textContent = T('translate_failed_note');
+    }
+  };
+  inputEl.addEventListener('blur', run);
+  run(); // translate whatever is already in the field (e.g. on record open)
+}
 
 function supaHeaders(extra){
   return Object.assign({
@@ -1105,6 +1234,9 @@ function renderDashboard(){
   document.getElementById('statOpen').textContent = records.filter(r=>r.status==='open').length;
   document.getElementById('statAnalysis').textContent = records.filter(r=>r.status==='analysis').length;
   document.getElementById('statClosed').textContent = records.filter(r=>r.status==='closed').length;
+  document.querySelectorAll('.stat-card').forEach(card=>{
+    card.classList.toggle('active', card.dataset.filter === activeStatusFilter);
+  });
   const q = (document.getElementById('dashSearch').value || '').toLowerCase();
   const tbody = document.getElementById('dashTableBody');
   tbody.innerHTML='';
@@ -1123,17 +1255,60 @@ function renderDashboard(){
     tr.innerHTML = `
       <td class="mono">${r.id}</td>
       <td>${escapeHtml(r.product||'-')}</td>
-      <td>${escapeHtml(r.symptom||'-')}</td>
-      <td>${(r.rc5m||[]).map(c=>`<span class="chip">${escapeHtml(m5Label(c))}</span>`).join(' ')||'-'}</td>
-      <td><span class="status-pill status-${r.status}">${statusLabel(r.status)}</span></td>
+      <td data-label="${T('col_symptom')}">${escapeHtml(r.symptom||'-')}</td>
+      <td data-label="${T('col_rootcause')}">${(r.rc5m||[]).map(c=>`<span class="chip">${escapeHtml(m5Label(c))}</span>`).join(' ')||'-'}</td>
+      <td><div style="display:flex; align-items:center; justify-content:flex-end; gap:6px;">
+        <button class="btn ghost small share-btn" data-share="${r.id}" title="${T('btn_share')}" aria-label="${T('btn_share')}">📤</button>
+        <span class="status-pill status-${r.status}">${statusLabel(r.status)}</span>
+      </div></td>
       <td>${severityLabel(r.severity)}</td>
-      <td class="mono">${r.dateOpened||'-'}</td>
+      <td class="mono" data-label="${T('col_date')}">${r.dateOpened||'-'}</td>
     `;
     tr.addEventListener('click', ()=>{ openRecord(r.id); showView('workspace'); });
+    tr.querySelector('.share-btn').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      shareRecord(r.id);
+    });
     tbody.appendChild(tr);
   });
 }
+async function shareRecord(id){
+  const r = records.find(x=>x.id===id);
+  if(!r) return;
+  const lines = [`${r.id} — ${r.product || '-'}`];
+  if(r.customer) lines.push(`${T('lbl_customer')}: ${r.customer}`);
+  if(r.containerNo) lines.push(`${T('lbl_container_no')}: ${r.containerNo}`);
+  if(r.productionSite) lines.push(`${T('lbl_production_site')}: ${r.productionSite}`);
+  lines.push(`${T('col_symptom')}: ${r.symptom || '-'}`);
+  lines.push(`${T('lbl_severity')}: ${severityLabel(r.severity)}`);
+  lines.push(`${T('col_status')}: ${statusLabel(r.status)}`);
+  if(r.rootCause) lines.push(`${T('lbl_rootcause')}: ${r.rootCause}`);
+  if(r.lessons) lines.push(`${T('lbl_lessons')}: ${r.lessons}`);
+  const text = lines.join('\n');
+  const title = T('share_title_prefix') + ' ' + r.id;
+
+  if(navigator.share){
+    try{ await navigator.share({ title, text }); }catch(e){ /* user cancelled — do nothing */ }
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(text);
+    alert(T('share_copied'));
+  }catch(e){
+    window.prompt(T('share_copied'), text);
+  }
+}
+
 document.getElementById('dashSearch').addEventListener('input', renderDashboard);
+document.querySelectorAll('.stat-card').forEach(card=>{
+  const activate = ()=>{
+    activeStatusFilter = card.dataset.filter;
+    renderDashboard();
+    document.getElementById('dashTableCard').scrollIntoView({behavior:'smooth', block:'nearest'});
+  };
+  card.addEventListener('click', activate);
+  card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); activate(); } });
+});
 document.getElementById('btnNewRecord').addEventListener('click', ()=>{ startNewRecord(); showView('workspace'); });
 
 /* ---------- workspace ---------- */
@@ -1211,6 +1386,9 @@ function renderWorkspace(){
   document.getElementById('invLayoutDocRef').value = d.investigation.layoutDocRef;
   document.getElementById('fRootCause').value = d.rootCause;
   document.getElementById('fLessons').value = d.lessons;
+  wireAutoTranslate(document.getElementById('fSymptom'), document.getElementById('fSymptomTr'));
+  wireAutoTranslate(document.getElementById('fRootCause'), document.getElementById('fRootCauseTr'));
+  wireAutoTranslate(document.getElementById('fLessons'), document.getElementById('fLessonsTr'));
 
   document.querySelectorAll('#rc5mBox input').forEach(cb=>{
     cb.checked = d.rc5m.includes(cb.value);
@@ -1264,12 +1442,12 @@ function renderSteps(){
         <button class="btn ghost small" data-remove-step="${idx}">${T('btn_remove')}</button>
       </div>
       <div class="row">
-        <div class="field"><label>${T('step_hypothesis')}</label><input data-step="${idx}" data-field="hypothesis" value="${attr(s.hypothesis)}"></div>
-        <div class="field"><label>${T('step_method')}</label><input data-step="${idx}" data-field="method" value="${attr(s.method)}"></div>
+        <div class="field"><label>${T('step_hypothesis')}</label><input data-step="${idx}" data-field="hypothesis" value="${attr(s.hypothesis)}"><div class="translate-note" data-tr="hypothesis-${idx}"></div></div>
+        <div class="field"><label>${T('step_method')}</label><input data-step="${idx}" data-field="method" value="${attr(s.method)}"><div class="translate-note" data-tr="method-${idx}"></div></div>
       </div>
       <div class="row" style="margin-top:8px;">
-        <div class="field"><label>${T('step_result')}</label><input data-step="${idx}" data-field="result" value="${attr(s.result)}"></div>
-        <div class="field"><label>${T('step_conclusion')}</label><input data-step="${idx}" data-field="conclusion" value="${attr(s.conclusion)}"></div>
+        <div class="field"><label>${T('step_result')}</label><input data-step="${idx}" data-field="result" value="${attr(s.result)}"><div class="translate-note" data-tr="result-${idx}"></div></div>
+        <div class="field"><label>${T('step_conclusion')}</label><input data-step="${idx}" data-field="conclusion" value="${attr(s.conclusion)}"><div class="translate-note" data-tr="conclusion-${idx}"></div></div>
       </div>
       <div class="row" style="margin-top:8px;">
         <div class="field" style="max-width:180px;"><label>${T('step_analyst')}</label><input data-step="${idx}" data-field="analyst" value="${attr(s.analyst)}"></div>
@@ -1302,6 +1480,12 @@ function renderSteps(){
       renderSteps();
     });
   });
+  ['hypothesis','method','result','conclusion'].forEach(field=>{
+    box.querySelectorAll(`input[data-field="${field}"]`).forEach(inputEl=>{
+      const outEl = box.querySelector(`[data-tr="${field}-${inputEl.dataset.step}"]`);
+      if(outEl) wireAutoTranslate(inputEl, outEl);
+    });
+  });
 }
 document.getElementById('btnAddStep').addEventListener('click', ()=>{
   currentDraft.steps.push({hypothesis:'', method:'', result:'', conclusion:'', analyst:'', date:new Date().toISOString().slice(0,10), category:''});
@@ -1323,7 +1507,7 @@ function renderActions(){
           <option value="Preventive" ${a.type==='Preventive'?'selected':''}>${T('action_type_preventive')}</option>
         </select>
       </div>
-      <div class="field"><label>${T('action_desc')}</label><input data-action="${idx}" data-field="desc" value="${attr(a.desc)}"></div>
+      <div class="field"><label>${T('action_desc')}</label><input data-action="${idx}" data-field="desc" value="${attr(a.desc)}"><div class="translate-note" data-tr-action="${idx}"></div></div>
       <div class="field"><label>${T('action_owner')}</label><input data-action="${idx}" data-field="owner" value="${attr(a.owner)}"></div>
       <div class="field"><label>${T('action_target')}</label><input type="date" data-action="${idx}" data-field="target" value="${attr(a.target)}"></div>
       <div class="field"><label>${T('action_status')}</label>
@@ -1346,6 +1530,10 @@ function renderActions(){
       const i = +el.dataset.action, f = el.dataset.field;
       currentDraft.actions[i][f] = el.value;
     });
+  });
+  box.querySelectorAll('input[data-field="desc"]').forEach(inputEl=>{
+    const outEl = box.querySelector(`[data-tr-action="${inputEl.dataset.action}"]`);
+    if(outEl) wireAutoTranslate(inputEl, outEl);
   });
   box.querySelectorAll('[data-remove-action]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
