@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quality Analysis Record — ICOCO Quality</title>
+<title>บันทึกการวิเคราะห์คุณภาพ — ICOCO Quality</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -215,7 +215,7 @@
   .step-card .step-head .step-label{font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-soft); font-weight:600;}
   .m5-tags{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
 
-  .action-row{display:grid; grid-template-columns: 100px 1fr 1fr 140px 130px 36px; gap:10px; align-items:end; margin-bottom:10px;}
+  .action-row{display:grid; grid-template-columns: 205px 1fr 1fr 140px 150px 36px; gap:10px; align-items:end; margin-bottom:10px;}
   .action-row .field{min-width:0;}
   .action-row .act-full{grid-column:1 / -1;}
   .action-row textarea{min-height:64px;}
@@ -431,7 +431,7 @@
     <div class="brand-row">
       <div class="brand-logo">ICO</div>
       <div>
-        <div class="brand-title">Quality Analysis Record</div>
+        <div class="brand-title" data-i18n="brand_title"></div>
         <div class="brand-subtitle" data-i18n="subtitle"></div>
       </div>
     </div>
@@ -503,7 +503,7 @@
       <table class="dash">
         <thead>
           <tr>
-            <th>ID</th><th data-i18n="col_product"></th><th data-i18n="col_symptom"></th><th data-i18n="col_rootcause"></th><th data-i18n="col_status"></th><th data-i18n="col_severity"></th><th data-i18n="col_date"></th>
+            <th data-i18n="col_id"></th><th data-i18n="col_product"></th><th data-i18n="col_symptom"></th><th data-i18n="col_rootcause"></th><th data-i18n="col_status"></th><th data-i18n="col_severity"></th><th data-i18n="col_date"></th>
           </tr>
         </thead>
         <tbody id="dashTableBody"></tbody>
@@ -783,23 +783,23 @@ const LANG_KEY = 'icoco_qa_lang';
 let lang = localStorage.getItem(LANG_KEY) || 'th';
 
 const I18N = {
-  subtitle:{th:"บันทึกการวิเคราะห์หาสาเหตุและมาตรการแก้ไข — สะสมเป็นฐานความรู้สำหรับ NPD และการรับ spec ลูกค้าใหม่", zh:"记录问题原因分析与改善措施 — 积累知识库，供新产品开发（NPD）及接单前参考"},
+  subtitle:{th:"บันทึกการวิเคราะห์หาสาเหตุและมาตรการแก้ไข — สะสมเป็นฐานความรู้สำหรับ NPD และการรับสเปกลูกค้าใหม่", zh:"记录问题原因分析与改善措施 — 积累知识库，供新产品开发（NPD）及接单前参考"},
   tab_dashboard:{th:"แดชบอร์ด", zh:"看板"},
   tab_workspace:{th:"วิเคราะห์ปัญหา", zh:"问题分析"},
-  tab_kb:{th:"ค้นหาความรู้ (NPD Lookup)", zh:"知识查询（NPD查询）"},
+  tab_kb:{th:"ค้นหาความรู้ (สำหรับ NPD)", zh:"知识查询（NPD查询）"},
   tab_manual:{th:"คู่มือการใช้งาน", zh:"使用手册"},
   btn_settings:{th:"⚙ ตั้งค่า Supabase", zh:"⚙ Supabase 设置"},
   settings_hint:{th:"สร้างโปรเจกต์ Supabase ใหม่ → รันสคริปต์ setup.sql ที่แนบให้ใน SQL Editor → คัดลอก Project URL และ anon public key จาก Settings → API มาใส่ตรงนี้", zh:"新建 Supabase 项目 → 在 SQL Editor 中运行附带的 setup.sql → 从 Settings → API 复制 Project URL 和 anon public key 并粘贴到此处"},
-  btn_disconnect:{th:"เลิกเชื่อม / ใช้ local อย่างเดียว", zh:"断开连接 / 仅使用本地模式"},
+  btn_disconnect:{th:"เลิกเชื่อม / ใช้ข้อมูลในเครื่องอย่างเดียว", zh:"断开连接 / 仅使用本地模式"},
   btn_connect:{th:"บันทึกและเชื่อมต่อ", zh:"保存并连接"},
 
   dash_search_ph:{th:"ค้นหาด้วย ID, สินค้า, ลักษณะปัญหา...", zh:"按编号、产品、问题描述搜索..."},
   btn_new_record:{th:"+ บันทึกใหม่", zh:"+ 新建记录"},
   col_product:{th:"สินค้า", zh:"产品"},
   col_symptom:{th:"ลักษณะปัญหา", zh:"问题描述"},
-  col_rootcause:{th:"Root cause category", zh:"根本原因类别"},
+  col_rootcause:{th:"หมวดสาเหตุ", zh:"根本原因类别"},
   col_status:{th:"สถานะ", zh:"状态"},
-  col_severity:{th:"Severity", zh:"严重程度"},
+  col_severity:{th:"ความรุนแรง", zh:"严重程度"},
   col_date:{th:"วันที่", zh:"日期"},
   dash_empty_title:{th:"ยังไม่มีบันทึก", zh:"尚无记录"},
   dash_empty_sub:{th:"เริ่มบันทึกการวิเคราะห์ปัญหาแรก เพื่อเริ่มสะสมฐานความรู้", zh:"开始记录第一笔问题分析，开始积累知识库"},
@@ -813,19 +813,19 @@ const I18N = {
   sec1_title:{th:"ข้อมูลปัญหา", zh:"问题信息"},
   lbl_product:{th:"สินค้า / SKU", zh:"产品 / SKU"},
   lbl_customer:{th:"ลูกค้า", zh:"客户"},
-  lbl_container_no:{th:"ตู้ container เลขที่", zh:"货柜号"},
+  lbl_container_no:{th:"เลขที่ตู้คอนเทนเนอร์", zh:"货柜号"},
   lbl_container_close_date:{th:"ตู้ปิดวันที่", zh:"封柜日期"},
   lbl_production_site:{th:"ผลิตที่ไหน", zh:"生产工厂"},
-  lbl_symptom:{th:"ลักษณะปัญหา (Defect symptom)", zh:"问题描述（缺陷现象）"},
-  lbl_severity:{th:"Severity", zh:"严重程度"},
-  sev_minor:{th:"Minor", zh:"轻微"},
-  sev_major:{th:"Major", zh:"严重"},
-  sev_critical:{th:"Critical", zh:"非常严重"},
+  lbl_symptom:{th:"ลักษณะปัญหา ", zh:"问题描述（缺陷现象）"},
+  lbl_severity:{th:"ความรุนแรง", zh:"严重程度"},
+  sev_minor:{th:"เล็กน้อย", zh:"轻微"},
+  sev_major:{th:"ร้ายแรง", zh:"严重"},
+  sev_critical:{th:"วิกฤต", zh:"非常严重"},
   lbl_status:{th:"สถานะ", zh:"状态"},
-  status_open:{th:"Open", zh:"待处理"},
-  status_analysis:{th:"In Analysis", zh:"分析中"},
-  status_closed:{th:"Closed", zh:"已结案"},
-  lbl_kb_tags:{th:"แท็กสำหรับค้นหาย้อนหลัง (ใช้ตอน NPD / รับ spec ใหม่)", zh:"用于日后查询的标签（供 NPD / 接受新规格时使用）"},
+  status_open:{th:"เปิดเคส", zh:"待处理"},
+  status_analysis:{th:"กำลังวิเคราะห์", zh:"分析中"},
+  status_closed:{th:"ปิดเคสแล้ว", zh:"已结案"},
+  lbl_kb_tags:{th:"แท็กสำหรับค้นหาย้อนหลัง (ใช้ตอน NPD / รับสเปกใหม่)", zh:"用于日后查询的标签（供 NPD / 接受新规格时使用）"},
   lbl_product_type:{th:"ประเภทสินค้า", zh:"产品类型"},
   lbl_material:{th:"วัตถุดิบ", zh:"原材料"},
   lbl_process:{th:"ขั้นตอนกระบวนการ", zh:"工艺步骤"},
@@ -835,7 +835,7 @@ const I18N = {
   lbl_photos_max_suffix:{th:"รูป", zh:"张"},
   btn_add_photo:{th:"+ เพิ่มรูป", zh:"+ 添加照片"},
 
-  sec2_title:{th:"Technical Analysis — ขั้นตอนการวิเคราะห์", zh:"技术分析 — 分析步骤"},
+  sec2_title:{th:"การวิเคราะห์ทางเทคนิค — ขั้นตอนการวิเคราะห์", zh:"技术分析 — 分析步骤"},
   inv_title:{th:"ข้อมูลประกอบการสอบสวนเบื้องต้น", zh:"初步调查背景资料"},
   inv_site:{th:"ผลิตที่โรงงานไหน", zh:"生产工厂"},
   inv_qd:{th:"QD ผู้รับผิดชอบ", zh:"负责的QD"},
@@ -857,27 +857,27 @@ const I18N = {
   opt_no_doc:{th:"ไม่มีเอกสาร", zh:"无相关文件"},
   lbl_doc_ref:{th:"เอกสารอ้างอิง / ตำแหน่งจัดเก็บ", zh:"参考文件 / 存放位置"},
   inv_inbound_doc_ref_ph:{th:"เช่น ใบตรวจรับตู้เลขที่...", zh:"例如：进厂验收单编号..."},
-  inv_layout_doc:{th:"เอกสารผังตู้ (loading plan) ได้นำมาพิจารณาหรือไม่", zh:"是否已参考装柜配载图（loading plan）"},
+  inv_layout_doc:{th:"เอกสารผังตู้  ได้นำมาพิจารณาหรือไม่", zh:"是否已参考装柜配载图（loading plan）"},
   inv_layout_doc_ref_ph:{th:"เช่น ผังตู้เลขที่...", zh:"例如：配载图编号..."},
-  btn_add_step:{th:"+ เพิ่ม Step", zh:"+ 添加步骤"},
+  btn_add_step:{th:"+ เพิ่มขั้นตอน", zh:"+ 添加步骤"},
 
-  sec3_title:{th:"Root Cause", zh:"根本原因"},
+  sec3_title:{th:"สาเหตุที่แท้จริง", zh:"根本原因"},
   lbl_rootcause:{th:"สาเหตุที่แท้จริง", zh:"真正原因"},
-  lbl_rootcause_ph:{th:"สรุปสาเหตุหลักที่ยืนยันจาก step การวิเคราะห์ด้านบน", zh:"总结上方分析步骤中确认的主要原因"},
+  lbl_rootcause_ph:{th:"สรุปสาเหตุหลักที่ยืนยันจาก ขั้นตอนการวิเคราะห์ด้านบน", zh:"总结上方分析步骤中确认的主要原因"},
   lbl_5m1e:{th:"ปัจจัยที่เกี่ยวข้อง (5M1E)", zh:"相关因素（5M1E）"},
-  m_man:{th:"Man", zh:"人 (Man)"},
-  m_machine:{th:"Machine", zh:"机 (Machine)"},
-  m_material:{th:"Material", zh:"料 (Material)"},
-  m_method:{th:"Method", zh:"法 (Method)"},
-  m_environment:{th:"Environment", zh:"环境 (Environment)"},
-  m_measurement:{th:"Measurement", zh:"测量 (Measurement)"},
+  m_man:{th:"คน (Man)", zh:"人 (Man)"},
+  m_machine:{th:"เครื่องจักร (Machine)", zh:"机 (Machine)"},
+  m_material:{th:"วัตถุดิบ (Material)", zh:"料 (Material)"},
+  m_method:{th:"วิธีการ (Method)", zh:"法 (Method)"},
+  m_environment:{th:"สิ่งแวดล้อม (Environment)", zh:"环境 (Environment)"},
+  m_measurement:{th:"การวัด (Measurement)", zh:"测量 (Measurement)"},
 
-  sec4_title:{th:"Action Management", zh:"措施管理"},
-  btn_add_action:{th:"+ เพิ่ม Action", zh:"+ 添加措施"},
+  sec4_title:{th:"แผนปฏิบัติการแก้ไขและป้องกัน", zh:"措施管理"},
+  btn_add_action:{th:"+ เพิ่มมาตรการ", zh:"+ 添加措施"},
 
-  sec5_title:{th:"Lessons Learned", zh:"经验总结"},
-  lbl_lessons:{th:"สรุปบทเรียน สำหรับผู้ที่จะพัฒนาสินค้าใหม่/รับ spec ใหม่ที่เกี่ยวข้องควรรู้อะไร", zh:"经验总结 — 未来开发新产品/接受新规格的人员应该了解什么"},
-  lbl_lessons_ph:{th:"เช่น: หลีกเลี่ยง material X ร่วมกับ retort > 121°C โดยไม่เพิ่มการเฝ้าระวัง seal", zh:"例如：避免在retort温度>121°C时使用X材料而不加强封口监控"},
+  sec5_title:{th:"บทเรียนที่ได้รับ", zh:"经验总结"},
+  lbl_lessons:{th:"สรุปบทเรียน สำหรับผู้ที่จะพัฒนาสินค้าใหม่/รับสเปกใหม่ที่เกี่ยวข้องควรรู้อะไร", zh:"经验总结 — 未来开发新产品/接受新规格的人员应该了解什么"},
+  lbl_lessons_ph:{th:"เช่น: หลีกเลี่ยง วัตถุดิบ X ร่วมกับการฆ่าเชื้อด้วยความร้อน > 121°C โดยไม่เพิ่มการเฝ้าระวังรอยซีล", zh:"例如：避免在retort温度>121°C时使用X材料而不加强封口监控"},
 
   btn_cancel:{th:"ยกเลิก", zh:"取消"},
   btn_back:{th:"← กลับ", zh:"← 返回"},
@@ -885,7 +885,7 @@ const I18N = {
   btn_save:{th:"บันทึก", zh:"保存"},
   btn_saving:{th:"กำลังบันทึก...", zh:"保存中..."},
 
-  kb_intro:{th:"ใช้หน้านี้ตอนเริ่มต้น NPD หรือรับ spec ใหม่จากลูกค้า — ค้นหาว่าสินค้า/วัตถุดิบ/กระบวนการแบบนี้ เคยมีปัญหาอะไรมาก่อน ก่อนเริ่มผลิตจริง", zh:"在开始NPD或接受客户新规格时使用此页面 — 查询此类产品/原材料/工艺是否曾发生过问题，再开始正式生产"},
+  kb_intro:{th:"ใช้หน้านี้ตอนเริ่มต้น NPD หรือรับสเปกใหม่จากลูกค้า — ค้นหาว่าสินค้า/วัตถุดิบ/กระบวนการแบบนี้ เคยมีปัญหาอะไรมาก่อน ก่อนเริ่มผลิตจริง", zh:"在开始NPD或接受客户新规格时使用此页面 — 查询此类产品/原材料/工艺是否曾发生过问题，再开始正式生产"},
 
   manual_title:{th:"คู่มือการใช้งาน", zh:"使用手册"},
   manual_intro:{th:"สรุปวิธีใช้งานแต่ละส่วนของแอปโดยย่อ", zh:"简要说明本应用各部分的使用方法"},
@@ -894,34 +894,34 @@ const I18N = {
   manual_dash_body:{th:'ดูภาพรวมจำนวนบันทึกทั้งหมด แยกตามสถานะ (Open / In Analysis / Closed) ที่แถบสถิติด้านบน ค้นหาด้วยรหัส สินค้า หรือรายละเอียดปัญหาได้ในช่องค้นหา กดที่แถวในตารางเพื่อเปิดดู/แก้ไขบันทึกนั้น หรือกด "+ บันทึกใหม่" เพื่อเริ่มบันทึกใหม่', zh:'顶部统计栏显示所有记录数量，并按状态（Open / In Analysis / Closed）分类。可通过编号、产品或问题描述在搜索框中查询。点击表格中的一行即可打开/编辑该记录，或点击"+ 新建记录"开始新记录'},
 
   manual_issue_title:{th:"ข้อมูลปัญหา (ส่วนที่ 1)", zh:"问题信息（第1部分）"},
-  manual_issue_body:{th:"กรอกข้อมูลพื้นฐาน เช่น สินค้า ลูกค้า เลขที่ตู้ container วันที่ปิดตู้ และโรงงานที่ผลิต พร้อมระบุลักษณะปัญหา ความรุนแรง (Severity) และสถานะ นอกจากนี้ยังมีช่องแท็ก (ประเภทสินค้า/วัตถุดิบ/กระบวนการ/ประเภทข้อบกพร่อง) ที่ใช้สำหรับค้นหาย้อนหลังในหน้า NPD Lookup", zh:"填写基本信息，如产品、客户、货柜号、封柜日期及生产工厂，并注明问题描述、严重程度（Severity）和状态。此外还有标签栏（产品类型/原材料/工艺/缺陷类型），供日后在NPD查询页面中搜索使用"},
+  manual_issue_body:{th:"กรอกข้อมูลพื้นฐาน เช่น สินค้า ลูกค้า เลขที่ตู้คอนเทนเนอร์ วันที่ปิดตู้ และโรงงานที่ผลิต พร้อมระบุลักษณะปัญหา ความรุนแรง  และสถานะ นอกจากนี้ยังมีช่องแท็ก (ประเภทสินค้า/วัตถุดิบ/กระบวนการ/ประเภทข้อบกพร่อง) ที่ใช้สำหรับค้นหาย้อนหลังในหน้าค้นหาความรู้ (สำหรับ NPD)", zh:"填写基本信息，如产品、客户、货柜号、封柜日期及生产工厂，并注明问题描述、严重程度（Severity）和状态。此外还有标签栏（产品类型/原材料/工艺/缺陷类型），供日后在NPD查询页面中搜索使用"},
 
   manual_photo_title:{th:"รูปภาพประกอบ", zh:"附件照片"},
   manual_photo_body:{th:"แนบรูปได้สูงสุด 5 รูปต่อ 1 บันทึก ระบบจะบีบอัดและย่อขนาดรูปให้อัตโนมัติก่อนอัปโหลด ต้องเชื่อมต่อ Supabase ก่อนจึงจะอัปโหลดรูปได้", zh:"每条记录最多可附加5张照片，系统会在上传前自动压缩并缩小图片尺寸。需先连接 Supabase 才能上传照片"},
 
   manual_investigation_title:{th:"ข้อมูลประกอบการสอบสวน (ส่วนที่ 2)", zh:"调查背景资料（第2部分）"},
-  manual_investigation_body:{th:"ก่อนเริ่มบันทึก Step การวิเคราะห์ ให้กรอกข้อมูลพื้นฐานของการสอบสวน เช่น โรงงานที่ผลิต ผู้รับผิดชอบ QD/TD ประวัติปัญหาของตู้ก่อนหน้า และการนำเอกสารตรวจสอบตู้/ผังตู้มาพิจารณาหรือไม่", zh:"在开始记录分析步骤之前，请先填写调查背景资料，如生产工厂、负责的QD/TD、以往货柜的问题记录，以及是否已参考进厂检查文件/配载图"},
+  manual_investigation_body:{th:"ก่อนเริ่มบันทึกขั้นตอนการวิเคราะห์ ให้กรอกข้อมูลพื้นฐานของการสอบสวน เช่น โรงงานที่ผลิต ผู้รับผิดชอบ QD/TD ประวัติปัญหาของตู้ก่อนหน้า และการนำเอกสารตรวจสอบตู้/ผังตู้มาพิจารณาหรือไม่", zh:"在开始记录分析步骤之前，请先填写调查背景资料，如生产工厂、负责的QD/TD、以往货柜的问题记录，以及是否已参考进厂检查文件/配载图"},
 
-  manual_steps_title:{th:"ขั้นตอนการวิเคราะห์ (Technical Analysis)", zh:"分析步骤（技术分析）"},
-  manual_steps_body:{th:"เพิ่ม Step การวิเคราะห์ได้ไม่จำกัดจำนวน แต่ละ Step ระบุสมมติฐาน (Hypothesis) วิธีตรวจสอบ (Method) ผลลัพธ์ (Result) และข้อสรุป (Conclusion) พร้อมระบุแหล่งที่มาตามหลัก 5M1E", zh:"可添加不限数量的分析步骤，每个步骤记录假设（Hypothesis）、检测方法（Method）、结果（Result）与结论（Conclusion），并按5M1E原则标注来源分类"},
+  manual_steps_title:{th:"ขั้นตอนการวิเคราะห์ (การวิเคราะห์ทางเทคนิค)", zh:"分析步骤（技术分析）"},
+  manual_steps_body:{th:"เพิ่มขั้นตอนการวิเคราะห์ได้ไม่จำกัดจำนวน แต่ละขั้นตอนระบุสมมติฐาน วิธีตรวจสอบ ผลที่พบ และข้อสรุป พร้อมระบุแหล่งที่มาตามหลัก 5M1E", zh:"可添加不限数量的分析步骤，每个步骤记录假设（Hypothesis）、检测方法（Method）、结果（Result）与结论（Conclusion），并按5M1E原则标注来源分类"},
 
-  manual_rootcause_title:{th:"Root Cause และ Action Management", zh:"根本原因与措施管理"},
-  manual_rootcause_body:{th:"สรุปสาเหตุที่แท้จริงและเลือกปัจจัยที่เกี่ยวข้อง (5M1E) จากนั้นบันทึกมาตรการแก้ไขแบบ Temporary / Corrective / Preventive พร้อมผู้รับผิดชอบและกำหนดเสร็จ สุดท้ายสรุปบทเรียน (Lessons Learned) สำหรับใช้อ้างอิงในอนาคต", zh:"总结真正原因并选择相关因素（5M1E），然后记录临时（Temporary）/纠正（Corrective）/预防（Preventive）措施，注明负责人与完成期限，最后填写经验总结（Lessons Learned）供日后参考"},
+  manual_rootcause_title:{th:"สาเหตุที่แท้จริง และแผนปฏิบัติการแก้ไขและป้องกัน", zh:"根本原因与措施管理"},
+  manual_rootcause_body:{th:"สรุปสาเหตุที่แท้จริงและเลือกปัจจัยที่เกี่ยวข้อง (5M1E) จากนั้นบันทึกมาตรการแก้ไขแบบการแก้ไขเฉพาะหน้า / การแก้ไขที่ต้นเหตุ / การป้องกันการเกิดซ้ำ พร้อมผู้รับผิดชอบและกำหนดเสร็จ สุดท้ายสรุปบทเรียน ที่ได้รับ สำหรับใช้อ้างอิงในอนาคต", zh:"总结真正原因并选择相关因素（5M1E），然后记录临时（Temporary）/纠正（Corrective）/预防（Preventive）措施，注明负责人与完成期限，最后填写经验总结（Lessons Learned）供日后参考"},
 
-  manual_kb_title:{th:"ค้นหาความรู้ (NPD Lookup)", zh:"知识查询（NPD查询）"},
-  manual_kb_body:{th:"ใช้ค้นหาว่าสินค้า วัตถุดิบ กระบวนการ หรือประเภทข้อบกพร่องแบบใกล้เคียงกัน เคยมีปัญหาอะไรมาก่อน เหมาะสำหรับใช้ก่อนเริ่ม NPD หรือรับ spec ใหม่จากลูกค้า ผลลัพธ์จะแสดง root cause และบทเรียนจากเคสเก่าที่ตรงกับคำค้นหา", zh:"用于查询相似产品、原材料、工艺或缺陷类型是否曾出现过问题，适合在开始NPD或接受客户新规格前使用。搜索结果会显示与查询条件相符的历史案例的根本原因与经验总结"},
+  manual_kb_title:{th:"ค้นหาความรู้ (ค้นหาความรู้ (สำหรับ NPD))", zh:"知识查询（NPD查询）"},
+  manual_kb_body:{th:"ใช้ค้นหาว่าสินค้า วัตถุดิบ กระบวนการ หรือประเภทข้อบกพร่องแบบใกล้เคียงกัน เคยมีปัญหาอะไรมาก่อน เหมาะสำหรับใช้ก่อนเริ่ม NPD หรือรับสเปกใหม่จากลูกค้า ผลลัพธ์จะแสดงสาเหตุที่แท้จริงและบทเรียนจากเคสเก่าที่ตรงกับคำค้นหา", zh:"用于查询相似产品、原材料、工艺或缺陷类型是否曾出现过问题，适合在开始NPD或接受客户新规格前使用。搜索结果会显示与查询条件相符的历史案例的根本原因与经验总结"},
 
   manual_connection_title:{th:"การเชื่อมต่อ Supabase", zh:"Supabase 连接"},
-  manual_connection_body:{th:"กด ⚙ ตั้งค่า Supabase เพื่อใส่ Project URL และ anon key badge สถานะมุมบนขวาแสดง: 🟢 เขียว = เชื่อมต่อสำเร็จ, 🟠 ส้ม = โหมด local (ยังไม่เชื่อม), 🔴 แดง = เชื่อมต่อ/บันทึกไม่สำเร็จ ถ้ายังไม่เชื่อมต่อ ข้อมูลจะถูกเก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น และอัปโหลดรูปไม่ได้", zh:"点击 ⚙ Supabase 设置以输入 Project URL 和 anon key。右上角状态徽章显示：🟢 绿色 = 连接成功，🟠 橙色 = 本地模式（尚未连接），🔴 红色 = 连接/保存失败。若尚未连接，数据仅保存在本机浏览器中，且无法上传照片"},
+  manual_connection_body:{th:"กด ⚙ ตั้งค่า Supabase เพื่อใส่ Project URL และ anon key badge สถานะมุมบนขวาแสดง: 🟢 เขียว = เชื่อมต่อสำเร็จ, 🟠 ส้ม = โหมด ในเครื่อง (ยังไม่เชื่อม), 🔴 แดง = เชื่อมต่อ/บันทึกไม่สำเร็จ ถ้ายังไม่เชื่อมต่อ ข้อมูลจะถูกเก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น และอัปโหลดรูปไม่ได้", zh:"点击 ⚙ Supabase 设置以输入 Project URL 和 anon key。右上角状态徽章显示：🟢 绿色 = 连接成功，🟠 橙色 = 本地模式（尚未连接），🔴 红色 = 连接/保存失败。若尚未连接，数据仅保存在本机浏览器中，且无法上传照片"},
 
   manual_lang_title:{th:"การสลับภาษา", zh:"切换语言"},
-  manual_lang_body:{th:"กดปุ่ม TH หรือ 中文 มุมบนขวาเพื่อสลับภาษาของหน้าจอ ระบบจะจำภาษาที่เลือกไว้ในเบราว์เซอร์ อย่างไรก็ตาม ข้อมูลที่กรอกเอง (เช่น รายละเอียดปัญหา, root cause) จะไม่ถูกแปลอัตโนมัติ ต้องพิมพ์เป็นภาษาที่ต้องการเอง", zh:"点击右上角的 TH 或 中文 按钮切换界面语言，系统会记住浏览器中所选的语言。但用户自行填写的内容（如问题描述、根本原因等）不会自动翻译，需自行以所需语言输入"},
+  manual_lang_body:{th:"กดปุ่ม TH หรือ 中文 มุมบนขวาเพื่อสลับภาษาของหน้าจอ ระบบจะจำภาษาที่เลือกไว้ในเบราว์เซอร์ อย่างไรก็ตาม ข้อมูลที่กรอกเอง (เช่น รายละเอียดปัญหา, สาเหตุที่แท้จริง) จะไม่ถูกแปลอัตโนมัติ ต้องพิมพ์เป็นภาษาที่ต้องการเอง", zh:"点击右上角的 TH 或 中文 按钮切换界面语言，系统会记住浏览器中所选的语言。但用户自行填写的内容（如问题描述、根本原因等）不会自动翻译，需自行以所需语言输入"},
 
-  step_label:{th:"Step", zh:"步骤"},
-  step_hypothesis:{th:"Hypothesis", zh:"假设"},
-  step_method:{th:"Method", zh:"方法"},
-  step_result:{th:"Result", zh:"结果"},
-  step_conclusion:{th:"Conclusion", zh:"结论"},
+  step_label:{th:"ขั้นตอนที่", zh:"步骤"},
+  step_hypothesis:{th:"สมมติฐาน", zh:"假设"},
+  step_method:{th:"วิธีการตรวจสอบ", zh:"方法"},
+  step_result:{th:"ผลที่พบ", zh:"结果"},
+  step_conclusion:{th:"ข้อสรุป", zh:"结论"},
   step_analyst:{th:"ผู้วิเคราะห์", zh:"分析人员"},
   step_date:{th:"วันที่", zh:"日期"},
   step_source:{th:"แหล่งที่มา (5M1E)", zh:"来源分类（5M1E）"},
@@ -933,28 +933,28 @@ const I18N = {
   action_owner:{th:"ผู้รับผิดชอบ", zh:"负责人"},
   action_target:{th:"กำหนดเสร็จ", zh:"完成期限"},
   action_status:{th:"สถานะ", zh:"状态"},
-  action_type_temp:{th:"Temporary", zh:"临时措施"},
-  action_type_corrective:{th:"Corrective", zh:"纠正措施"},
-  action_type_preventive:{th:"Preventive", zh:"预防措施"},
-  action_status_open:{th:"Open", zh:"未开始"},
-  action_status_inprogress:{th:"In Progress", zh:"进行中"},
-  action_status_completed:{th:"Completed", zh:"已完成"},
+  action_type_temp:{th:"การแก้ไขเฉพาะหน้า", zh:"临时措施"},
+  action_type_corrective:{th:"การแก้ไขที่ต้นเหตุ", zh:"纠正措施"},
+  action_type_preventive:{th:"การป้องกันการเกิดซ้ำ", zh:"预防措施"},
+  action_status_open:{th:"เปิดอยู่", zh:"未开始"},
+  action_status_inprogress:{th:"กำลังดำเนินการ", zh:"进行中"},
+  action_status_completed:{th:"เสร็จสิ้น", zh:"已完成"},
 
   kb_match_prefix:{th:"ตรงกับ:", zh:"匹配项："},
-  kb_rootcause_label:{th:"Root cause:", zh:"根本原因："},
-  kb_lessons_label:{th:"Lesson learned:", zh:"经验总结："},
+  kb_rootcause_label:{th:"สาเหตุที่แท้จริง:", zh:"根本原因："},
+  kb_lessons_label:{th:"บทเรียน:", zh:"经验总结："},
   btn_open_full:{th:"เปิดบันทึกเต็ม", zh:"打开完整记录"},
   kb_empty_title:{th:"ไม่พบเคสที่เกี่ยวข้อง", zh:"未找到相关案例"},
-  kb_empty_sub:{th:"ลองปรับคำค้นหา หรือถือว่ายังไม่มีประวัติปัญหาสำหรับ combination นี้", zh:"请尝试调整搜索条件，或可视为此组合尚无历史问题记录"},
+  kb_empty_sub:{th:"ลองปรับคำค้นหา หรือถือว่ายังไม่มีประวัติปัญหาสำหรับเงื่อนไขนี้", zh:"请尝试调整搜索条件，或可视为此组合尚无历史问题记录"},
 
   sync_loading:{th:"กำลังโหลดจาก Supabase...", zh:"正在从 Supabase 加载..."},
   sync_connected:{th:"เชื่อมกับ Supabase", zh:"已连接 Supabase"},
-  sync_load_failed:{th:"โหลดจาก Supabase ไม่สำเร็จ — ใช้ข้อมูล local ล่าสุดแทน", zh:"从 Supabase 加载失败 — 改用最新本地数据"},
-  sync_local_mode:{th:"โหมด local (ยังไม่เชื่อม Supabase)", zh:"本地模式（尚未连接 Supabase）"},
+  sync_load_failed:{th:"โหลดจาก Supabase ไม่สำเร็จ — ใช้ข้อมูลในเครื่องล่าสุดแทน", zh:"从 Supabase 加载失败 — 改用最新本地数据"},
+  sync_local_mode:{th:"โหมดในเครื่อง (ยังไม่เชื่อม Supabase)", zh:"本地模式（尚未连接 Supabase）"},
   sync_saving:{th:"กำลังบันทึกไปยัง Supabase...", zh:"正在保存到 Supabase..."},
-  sync_save_failed:{th:"บันทึกขึ้น Supabase ไม่สำเร็จ (บันทึก local ไว้แล้ว) — ลองใหม่ภายหลัง", zh:"保存到 Supabase 失败（已保存本地）— 请稍后重试"},
+  sync_save_failed:{th:"บันทึกขึ้น Supabase ไม่สำเร็จ (บันทึก ในเครื่อง ไว้แล้ว) — ลองใหม่ภายหลัง", zh:"保存到 Supabase 失败（已保存本地）— 请稍后重试"},
   sync_deleting:{th:"กำลังลบบน Supabase...", zh:"正在从 Supabase 删除..."},
-  sync_delete_failed:{th:"ลบบน Supabase ไม่สำเร็จ (ลบ local ไว้แล้ว)", zh:"从 Supabase 删除失败（本地已删除）"},
+  sync_delete_failed:{th:"ลบบน Supabase ไม่สำเร็จ (ลบ ในเครื่อง ไว้แล้ว)", zh:"从 Supabase 删除失败（本地已删除）"},
 
   alert_min_fields:{th:"กรุณากรอกอย่างน้อย: สินค้า และลักษณะปัญหา", zh:"请至少填写：产品 和 问题描述"},
   confirm_delete:{th:"ยืนยันการลบบันทึกนี้?", zh:"确定要删除此记录吗？"},
@@ -973,16 +973,18 @@ const I18N = {
   /* ---- NCR (ICOCO-QF-QA-10) ---- */
   btn_print_ncr:{th:"🖨 พิมพ์ใบ NCR", zh:"🖨 打印NCR"},
   btn_print_row:{th:"พิมพ์ใบ NCR", zh:"打印NCR"},
-  act_required_hint:{th:"* บังคับ: ต้องมี Action ประเภท Preventive อย่างน้อย 1 รายการ — \"แนวทางการป้องกัน\" และหมวด 6M ที่ติ๊ก จะถูกพิมพ์ในช่อง สาเหตุ-การป้องกัน ของใบ NCR (A4)", zh:"* 必填：至少需要一项「预防措施」(Preventive) — 所填的预防措施内容和勾选的6M类别会打印在NCR(A4)的原因-预防栏中"},
+  col_id:{th:"เลขที่", zh:"编号"},
+  brand_title:{th:"บันทึกการวิเคราะห์คุณภาพ", zh:"质量分析记录"},
+  act_required_hint:{th:"* บังคับ: ต้องมีมาตรการประเภท “การป้องกันการเกิดซ้ำ” อย่างน้อย 1 รายการ — ข้อความ “แนวทางการป้องกัน” และหมวด 6M ที่ติ๊ก จะถูกพิมพ์ในช่อง สาเหตุ-การป้องกัน ของใบ NCR (A4)", zh:"* 必填：至少需要一项「预防措施」(Preventive) — 所填的预防措施内容和勾选的6M类别会打印在NCR(A4)的原因-预防栏中"},
   act_prev_desc:{th:"แนวทางการป้องกัน (พิมพ์ลงใบ NCR)", zh:"预防措施内容（打印到NCR）"},
   act_m_label:{th:"หมวดสาเหตุที่การป้องกันนี้แก้ (ติ๊กได้หลายข้อ)", zh:"本预防措施针对的类别（可多选）"},
-  alert_need_preventive:{th:"กรุณากรอก Action ประเภท Preventive (แนวทางการป้องกัน) อย่างน้อย 1 รายการ ก่อนพิมพ์ใบ NCR", zh:"打印NCR前，请至少填写一项预防措施(Preventive)"},
-  alert_need_preventive_close:{th:"ก่อนปิดเคส (สถานะ Closed) ต้องมี Action ประเภท Preventive (แนวทางการป้องกัน) อย่างน้อย 1 รายการ", zh:"结案(Closed)前，必须至少有一项预防措施(Preventive)"},
+  alert_need_preventive:{th:"กรุณากรอกมาตรการประเภท “การป้องกันการเกิดซ้ำ” (แนวทางการป้องกัน) อย่างน้อย 1 รายการ ก่อนพิมพ์ใบ NCR", zh:"打印NCR前，请至少填写一项预防措施(Preventive)"},
+  alert_need_preventive_close:{th:"ก่อนปิดเคส ต้องมีมาตรการประเภท “การป้องกันการเกิดซ้ำ” (แนวทางการป้องกัน) อย่างน้อย 1 รายการ", zh:"结案(Closed)前，必须至少有一项预防措施(Preventive)"},
   ncr_source:{th:"แหล่งที่พบปัญหา (ใช้พิมพ์ในใบ NCR)", zh:"问题发现环节（用于NCR打印）"},
-  src_incoming:{th:"Incoming", zh:"来料 (Incoming)"},
-  src_inprocess:{th:"Inprocess", zh:"制程中 (Inprocess)"},
-  src_finish:{th:"Finish goods", zh:"成品 (Finish goods)"},
-  src_claim:{th:"Claim", zh:"客诉 (Claim)"},
+  src_incoming:{th:"ตรวจรับ (Incoming)", zh:"来料 (Incoming)"},
+  src_inprocess:{th:"ระหว่างผลิต (Inprocess)", zh:"制程中 (Inprocess)"},
+  src_finish:{th:"สินค้าสำเร็จรูป (Finish goods)", zh:"成品 (Finish goods)"},
+  src_claim:{th:"ข้อร้องเรียน (Claim)", zh:"客诉 (Claim)"},
   src_other:{th:"อื่นๆ", zh:"其他"}
 };
 
@@ -1895,7 +1897,7 @@ function buildNcrHtml(rec){
   const prevM = prev.reduce((s,a)=>s.concat(a.m || []), []);
   const nonPrev = (rec.actions || []).filter(a=>a.type !== 'Preventive');
   const nonPrevOwner = Array.from(new Set(nonPrev.map(a=>(a.owner || '').trim()).filter(Boolean))).join(' / ');
-  const nonPrevTypeTh = {Temporary:'การแก้ไขเฉพาะหน้า', Corrective:'การแก้ไข'};
+  const nonPrevTypeTh = {Temporary:'การแก้ไขเฉพาะหน้า', Corrective:'การแก้ไขที่ต้นเหตุ'};
   const nonPrevHtml = nonPrev.filter(a=>(a.desc || '').trim())
     .map(a=>`<div style="margin-top:0.6mm;">• ${nonPrevTypeTh[a.type] || escapeHtml(a.type || '')}: ${ncrText(a.desc.trim())}</div>`).join('');
   const prevOwner = Array.from(new Set(prev.map(a=>a.owner).filter(Boolean))).join(' / ');
