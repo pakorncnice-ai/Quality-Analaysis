@@ -201,6 +201,40 @@
   .legend-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; font-size:11px; color:var(--ink-soft);}
   .legend-dot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:4px; vertical-align:middle;}
 
+  .kpi-mini.clickable, .legend-item.clickable, .bar-list-row.clickable, .risk-table td.clickable, .chart-bar.clickable{
+    cursor:pointer; transition:transform .1s, box-shadow .15s;
+  }
+  .kpi-mini.clickable:hover{box-shadow:var(--shadow-hover); transform:translateY(-1px);}
+  .legend-item.clickable:hover, .bar-list-row.clickable:hover{background:var(--line); border-radius:6px;}
+  .risk-table td.clickable:hover{outline:2px solid var(--ink); outline-offset:-2px;}
+  .chart-bar.clickable:hover{filter:brightness(1.08);}
+
+  .drill-overlay{
+    display:none; position:fixed; inset:0; background:rgba(17,24,39,0.45); z-index:100;
+    align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto;
+  }
+  .drill-overlay.open{display:flex;}
+  .drill-panel{
+    background:var(--paper-raised); border-radius:16px; max-width:640px; width:100%;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25); max-height:calc(100vh - 80px); display:flex; flex-direction:column;
+  }
+  .drill-head{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--line-strong); flex-shrink:0;}
+  .drill-head h3{font-size:15px;}
+  .drill-head .count{font-size:12px; color:var(--ink-soft); font-weight:500; margin-top:2px;}
+  .drill-body{padding:12px 20px 20px 20px; overflow-y:auto;}
+  .drill-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:11px 4px; border-bottom:1px solid var(--line); cursor:pointer;
+  }
+  .drill-row:last-child{border-bottom:none;}
+  .drill-row:hover{background:#F9FAFB;}
+  .drill-row .dr-main{min-width:0;}
+  .drill-row .dr-id{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-soft);}
+  .drill-row .dr-title{font-weight:600; font-size:13.5px; margin-top:1px;}
+  .drill-row .dr-sub{font-size:12px; color:var(--ink-soft); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .drill-row .dr-badges{display:flex; gap:6px; flex-shrink:0;}
+  .drill-empty{padding:30px 10px; text-align:center; color:var(--ink-soft); font-size:13px;}
+
   .dash-toolbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:12px; flex-wrap:wrap;}
   .search-wrap{position:relative; flex:1; min-width:240px; max-width:340px;}
   .search-wrap .search-icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--ink-soft); pointer-events:none;}
@@ -899,6 +933,19 @@
     </div>
   </section>
 
+
+  <div class="drill-overlay" id="drillOverlay">
+    <div class="drill-panel">
+      <div class="drill-head">
+        <div>
+          <h3 id="drillTitle"></h3>
+          <div class="count" id="drillCount"></div>
+        </div>
+        <button class="btn ghost small" id="btnCloseDrill">✕</button>
+      </div>
+      <div class="drill-body" id="drillBody"></div>
+    </div>
+  </div>
 </main>
 
 <div id="ncrPrint"></div>
@@ -944,6 +991,9 @@ const I18N = {
   chart_no_data:{th:"ยังไม่มีข้อมูลเพียงพอ", zh:"数据尚不足"},
   list_others:{th:"อื่นๆ", zh:"其他"},
   list_no_tag_data:{th:"(ยังไม่ได้ระบุแท็ก)", zh:"（尚未填写标签）"},
+  drill_count_suffix:{th:"{n} รายการ", zh:"{n} 项"},
+  drill_empty:{th:"ไม่พบรายการที่ตรงกัน", zh:"未找到符合条件的记录"},
+  drill_overdue_note:{th:"เกินกำหนด: {date}", zh:"逾期：{date}"},
 
   ws_new_id:{th:"รหัสใหม่ — ยังไม่บันทึก", zh:"新编号 — 尚未保存"},
   ws_default_title:{th:"บันทึกการวิเคราะห์ทางเทคนิค", zh:"技术分析记录"},
@@ -1489,17 +1539,64 @@ function renderStatusFilters(){
 /* ---------- analytics overview ---------- */
 function escAttr(s){ return escapeHtml(String(s)); }
 
+/* ---------- drill-down modal ---------- */
+function openDrillModal(title, list){
+  const overlay = document.getElementById('drillOverlay');
+  document.getElementById('drillTitle').textContent = title;
+  document.getElementById('drillCount').textContent = T('drill_count_suffix', {n: list.length});
+  const body = document.getElementById('drillBody');
+  if(!list.length){
+    body.innerHTML = `<div class="drill-empty">${T('drill_empty')}</div>`;
+  }else{
+    body.innerHTML = list.map(r=>`
+      <div class="drill-row" data-drill-open="${r.id}">
+        <div class="dr-main">
+          <div class="dr-id">${r.id}${r.supplier ? ' · ' + escAttr(r.supplier) : ''}</div>
+          <div class="dr-title">${escAttr(r.product||'-')}</div>
+          <div class="dr-sub">${escAttr(r.symptom||'-')}</div>
+        </div>
+        <div class="dr-badges">
+          <span class="status-pill status-${r.status}">${statusLabel(r.status)}</span>
+        </div>
+      </div>
+    `).join('');
+    body.querySelectorAll('[data-drill-open]').forEach(row=>{
+      row.addEventListener('click', ()=>{
+        closeDrillModal();
+        openRecord(row.dataset.drillOpen);
+        showView('workspace');
+      });
+    });
+  }
+  overlay.classList.add('open');
+}
+function closeDrillModal(){
+  document.getElementById('drillOverlay').classList.remove('open');
+}
+document.getElementById('btnCloseDrill').addEventListener('click', closeDrillModal);
+document.getElementById('drillOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'drillOverlay') closeDrillModal();
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeDrillModal();
+});
+
 function renderAnalytics(){
   const today = new Date().toISOString().slice(0,10);
 
-  // KPI: overdue actions
-  let overdue = 0;
+  // KPI: overdue actions (one entry per record, keeping the earliest overdue date)
+  const overdueRecords = [];
   records.forEach(r=>{
+    let hasOverdue = false;
     (r.actions||[]).forEach(a=>{
-      if(a.target && a.target < today && a.status !== 'Completed') overdue++;
+      if(a.target && a.target < today && a.status !== 'Completed') hasOverdue = true;
     });
+    if(hasOverdue) overdueRecords.push(r);
   });
-  document.getElementById('kpiOverdueActions').textContent = overdue;
+  document.getElementById('kpiOverdueActions').textContent = overdueRecords.length;
+  const kpiOverdueCard = document.getElementById('kpiOverdueActions').closest('.kpi-mini');
+  kpiOverdueCard.classList.add('clickable');
+  kpiOverdueCard.onclick = ()=> openDrillModal(T('kpi_overdue_actions'), overdueRecords);
 
   // KPI: repeat issues (same product type + defect type combo seen before)
   const comboFirst = {};
@@ -1510,34 +1607,45 @@ function renderAnalytics(){
     const combo = pt + '|' + dt;
     if(!comboFirst[combo] || (r.dateOpened && r.dateOpened < comboFirst[combo])) comboFirst[combo] = r.dateOpened || '';
   });
-  let repeats = 0;
+  const repeatRecords = [];
   records.forEach(r=>{
     const pt = ((r.tags && r.tags.productType) || '').trim().toLowerCase();
     const dt = ((r.tags && r.tags.defectType) || '').trim().toLowerCase();
     if(!pt || !dt) return;
     const combo = pt + '|' + dt;
-    if(r.dateOpened && r.dateOpened > comboFirst[combo]) repeats++;
+    if(r.dateOpened && r.dateOpened > comboFirst[combo]) repeatRecords.push(r);
   });
-  document.getElementById('kpiRepeatIssues').textContent = repeats;
+  document.getElementById('kpiRepeatIssues').textContent = repeatRecords.length;
+  const kpiRepeatCard = document.getElementById('kpiRepeatIssues').closest('.kpi-mini');
+  kpiRepeatCard.classList.add('clickable');
+  kpiRepeatCard.onclick = ()=> openDrillModal(T('kpi_repeat_issues'), repeatRecords);
 
   // KPI: high severity still open
-  const highSevOpen = records.filter(r=>(r.status==='open'||r.status==='analysis') && (r.severity==='Major'||r.severity==='Critical')).length;
-  document.getElementById('kpiHighSeverity').textContent = highSevOpen;
+  const highSevRecords = records.filter(r=>(r.status==='open'||r.status==='analysis') && (r.severity==='Major'||r.severity==='Critical'));
+  document.getElementById('kpiHighSeverity').textContent = highSevRecords.length;
+  const kpiHighSevCard = document.getElementById('kpiHighSeverity').closest('.kpi-mini');
+  kpiHighSevCard.classList.add('clickable');
+  kpiHighSevCard.onclick = ()=> openDrillModal(T('kpi_high_severity_open'), highSevRecords);
 
   // KPI: top defect type
   const defectTally = {};
   records.forEach(r=>{
     const dt = ((r.tags && r.tags.defectType) || '').trim();
     if(!dt) return;
-    defectTally[dt] = (defectTally[dt]||0) + 1;
+    (defectTally[dt] = defectTally[dt] || []).push(r);
   });
-  const defectEntries = Object.entries(defectTally).sort((a,b)=>b[1]-a[1]);
+  const defectEntries = Object.entries(defectTally).sort((a,b)=>b[1].length-a[1].length);
+  const kpiTopDefectCard = document.getElementById('kpiTopDefect').closest('.kpi-mini');
   if(defectEntries.length){
     document.getElementById('kpiTopDefect').textContent = defectEntries[0][0];
-    document.getElementById('kpiTopDefectSub').textContent = defectEntries[0][1] + ' ' + T('col_product').toLowerCase();
+    document.getElementById('kpiTopDefectSub').textContent = defectEntries[0][1].length + ' ' + T('col_product').toLowerCase();
+    kpiTopDefectCard.classList.add('clickable');
+    kpiTopDefectCard.onclick = ()=> openDrillModal(defectEntries[0][0], defectEntries[0][1]);
   }else{
     document.getElementById('kpiTopDefect').textContent = '-';
     document.getElementById('kpiTopDefectSub').textContent = '';
+    kpiTopDefectCard.classList.remove('clickable');
+    kpiTopDefectCard.onclick = null;
   }
 
   // Chart: issues opened per month (bar chart, last 6 months with data)
@@ -1545,26 +1653,29 @@ function renderAnalytics(){
   records.forEach(r=>{
     if(!r.dateOpened) return;
     const ym = r.dateOpened.slice(0,7);
-    monthTally[ym] = (monthTally[ym]||0) + 1;
+    (monthTally[ym] = monthTally[ym] || []).push(r);
   });
   const months = Object.keys(monthTally).sort().slice(-6);
   const monthlyBox = document.getElementById('chartMonthly');
   if(!months.length){
     monthlyBox.innerHTML = `<div class="chart-empty">${T('chart_no_data')}</div>`;
   }else{
-    const maxVal = Math.max(...months.map(m=>monthTally[m]), 1);
+    const maxVal = Math.max(...months.map(m=>monthTally[m].length), 1);
     monthlyBox.innerHTML = `<div style="display:flex; align-items:flex-end; gap:10px; height:120px; padding-top:6px;">
       ${months.map(m=>{
-        const v = monthTally[m];
+        const v = monthTally[m].length;
         const h = Math.max(6, Math.round((v/maxVal)*100));
         const label = m.slice(5,7) + '/' + m.slice(2,4);
         return `<div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
           <div style="font-size:11px; font-weight:600; color:var(--ink);">${v}</div>
-          <div style="width:100%; max-width:34px; height:${h}px; background:linear-gradient(180deg, #10B981, #0D9488); border-radius:6px 6px 2px 2px;"></div>
+          <div class="chart-bar clickable" data-month="${m}" style="width:100%; max-width:34px; height:${h}px; background:linear-gradient(180deg, #10B981, #0D9488); border-radius:6px 6px 2px 2px;"></div>
           <div style="font-size:10.5px; color:var(--ink-soft);" class="mono">${label}</div>
         </div>`;
       }).join('')}
     </div>`;
+    monthlyBox.querySelectorAll('[data-month]').forEach(bar=>{
+      bar.addEventListener('click', ()=> openDrillModal(bar.dataset.month, monthTally[bar.dataset.month]));
+    });
   }
 
   // Chart: defect type donut
@@ -1574,14 +1685,14 @@ function renderAnalytics(){
     donutBox.innerHTML = `<div class="chart-empty">${T('chart_no_data')}</div>`;
   }else{
     const top = defectEntries.slice(0,5);
-    const othersTotal = defectEntries.slice(5).reduce((s,e)=>s+e[1],0);
-    const slices = top.map((e,i)=>({label:e[0], count:e[1], color:palette[i]}));
-    if(othersTotal>0) slices.push({label:T('list_others'), count:othersTotal, color:'#9CA3AF'});
-    const total = slices.reduce((s,x)=>s+x.count,0);
+    const othersList = defectEntries.slice(5).reduce((s,e)=>s.concat(e[1]),[]);
+    const slices = top.map((e,i)=>({label:e[0], recs:e[1], color:palette[i]}));
+    if(othersList.length>0) slices.push({label:T('list_others'), recs:othersList, color:'#9CA3AF'});
+    const total = slices.reduce((s,x)=>s+x.recs.length,0);
     let cum = 0;
     const gradientParts = slices.map(s=>{
       const start = (cum/total)*360;
-      cum += s.count;
+      cum += s.recs.length;
       const end = (cum/total)*360;
       return `${s.color} ${start}deg ${end}deg`;
     });
@@ -1593,13 +1704,17 @@ function renderAnalytics(){
         </div>
       </div>
       <div style="flex:1; min-width:0;">
-        ${slices.map(s=>`<div style="display:flex; align-items:center; gap:6px; font-size:11.5px; margin-bottom:6px;">
+        ${slices.map((s,i)=>`<div class="legend-item clickable" data-slice="${i}" style="display:flex; align-items:center; gap:6px; font-size:11.5px; margin-bottom:6px; padding:2px 4px;">
           <span class="legend-dot" style="background:${s.color};"></span>
           <span style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escAttr(s.label)}</span>
-          <span style="font-weight:600;">${Math.round((s.count/total)*100)}%</span>
+          <span style="font-weight:600;">${Math.round((s.recs.length/total)*100)}%</span>
         </div>`).join('')}
       </div>
     `;
+    donutBox.querySelectorAll('[data-slice]').forEach(row=>{
+      const s = slices[+row.dataset.slice];
+      row.addEventListener('click', ()=> openDrillModal(s.label, s.recs));
+    });
   }
 
   // List: top production sites
@@ -1607,21 +1722,25 @@ function renderAnalytics(){
   records.forEach(r=>{
     const s = (r.productionSite||'').trim();
     if(!s) return;
-    siteTally[s] = (siteTally[s]||0) + 1;
+    (siteTally[s] = siteTally[s] || []).push(r);
   });
-  const siteEntries = Object.entries(siteTally).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const siteEntries = Object.entries(siteTally).sort((a,b)=>b[1].length-a[1].length).slice(0,5);
   const sitesBox = document.getElementById('listTopSites');
   if(!siteEntries.length){
     sitesBox.innerHTML = `<div class="chart-empty">${T('chart_no_data')}</div>`;
   }else{
-    const maxSite = siteEntries[0][1];
-    sitesBox.innerHTML = siteEntries.map(([name,count])=>`
-      <div class="bar-list-row">
+    const maxSite = siteEntries[0][1].length;
+    sitesBox.innerHTML = siteEntries.map(([name,list],i)=>`
+      <div class="bar-list-row clickable" data-site-idx="${i}" style="padding:4px;">
         <div class="bl-label" title="${escAttr(name)}">${escAttr(name)}</div>
-        <div class="bl-track"><div class="bl-fill" style="width:${Math.round((count/maxSite)*100)}%;"></div></div>
-        <div class="bl-count">${count}</div>
+        <div class="bl-track"><div class="bl-fill" style="width:${Math.round((list.length/maxSite)*100)}%;"></div></div>
+        <div class="bl-count">${list.length}</div>
       </div>
     `).join('');
+    sitesBox.querySelectorAll('[data-site-idx]').forEach(row=>{
+      const [name, list] = siteEntries[+row.dataset.siteIdx];
+      row.addEventListener('click', ()=> openDrillModal(name, list));
+    });
   }
 
   // Risk-by-product matrix
@@ -1629,41 +1748,48 @@ function renderAnalytics(){
   records.forEach(r=>{
     const p = ((r.tags && r.tags.productType) || '').trim();
     if(!p) return;
-    if(!productTally[p]) productTally[p] = {Minor:0, Major:0, Critical:0};
-    if(productTally[p][r.severity] !== undefined) productTally[p][r.severity]++;
+    if(!productTally[p]) productTally[p] = {Minor:[], Major:[], Critical:[]};
+    if(productTally[p][r.severity] !== undefined) productTally[p][r.severity].push(r);
   });
   const productEntries = Object.keys(productTally)
-    .map(p=>({p, counts:productTally[p], total: productTally[p].Minor+productTally[p].Major+productTally[p].Critical}))
+    .map(p=>({p, counts:productTally[p], total: productTally[p].Minor.length+productTally[p].Major.length+productTally[p].Critical.length}))
     .sort((a,b)=>b.total-a.total).slice(0,6);
   const riskBox = document.getElementById('riskMatrix');
   if(!productEntries.length){
     riskBox.innerHTML = `<div class="chart-empty">${T('chart_no_data')}</div>`;
   }else{
     const colMax = {
-      Minor: Math.max(...productEntries.map(e=>e.counts.Minor), 1),
-      Major: Math.max(...productEntries.map(e=>e.counts.Major), 1),
-      Critical: Math.max(...productEntries.map(e=>e.counts.Critical), 1)
+      Minor: Math.max(...productEntries.map(e=>e.counts.Minor.length), 1),
+      Major: Math.max(...productEntries.map(e=>e.counts.Major.length), 1),
+      Critical: Math.max(...productEntries.map(e=>e.counts.Critical.length), 1)
     };
     const colBase = { Minor:'5,150,105', Major:'217,119,6', Critical:'220,38,38' };
-    const cell = (sev, count)=>{
+    const cell = (pIdx, sev)=>{
+      const list = productEntries[pIdx].counts[sev];
+      const count = list.length;
       if(!count) return `<td style="background:#F9FAFB; color:#D1D5DB;">0</td>`;
       const alpha = (0.18 + 0.7 * (count/colMax[sev])).toFixed(2);
       const textColor = alpha > 0.5 ? '#fff' : '#111827';
-      return `<td style="background:rgba(${colBase[sev]},${alpha}); color:${textColor};">${count}</td>`;
+      return `<td class="clickable" data-cell="${pIdx}|${sev}" style="background:rgba(${colBase[sev]},${alpha}); color:${textColor};">${count}</td>`;
     };
     riskBox.innerHTML = `
       <table class="risk-table">
         <thead><tr><th>${T('col_product')}</th><th>${T('sev_minor')}</th><th>${T('sev_major')}</th><th>${T('sev_critical')}</th></tr></thead>
         <tbody>
-          ${productEntries.map(e=>`<tr>
+          ${productEntries.map((e,pIdx)=>`<tr>
             <td class="rk-label" title="${escAttr(e.p)}">${escAttr(e.p)}</td>
-            ${cell('Minor', e.counts.Minor)}
-            ${cell('Major', e.counts.Major)}
-            ${cell('Critical', e.counts.Critical)}
+            ${cell(pIdx,'Minor')}
+            ${cell(pIdx,'Major')}
+            ${cell(pIdx,'Critical')}
           </tr>`).join('')}
         </tbody>
       </table>
     `;
+    riskBox.querySelectorAll('[data-cell]').forEach(td=>{
+      const [pIdx, sev] = td.dataset.cell.split('|');
+      const entry = productEntries[+pIdx];
+      td.addEventListener('click', ()=> openDrillModal(entry.p + ' — ' + T('sev_' + sev.toLowerCase()), entry.counts[sev]));
+    });
   }
 }
 
